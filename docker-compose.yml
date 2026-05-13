@@ -4,7 +4,7 @@ services:
   website:
     build: .
     ports:
-      - "8090:80" # Die Website ist dann unter http://deine-ip:8090 erreichbar
+      - "8181:80" # Die Website ist dann unter http://deine-ip:8181 erreichbar
     restart: always
 
   mail-server:
