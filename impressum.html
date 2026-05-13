@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impressum — Emili Gaßner</title>
+<meta name="description" content="Impressum von Emili Gaßner — Grafikdesignerin & Gestalterin für visuelles Marketing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Caveat:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+    /* Spezifische Styles für die rechtlichen Seiten */
+    .legal-page {
+        padding-top: 12rem;
+        padding-bottom: 8rem;
+        background: var(--cream-light);
+        min-height: 80vh;
+    }
+    .legal-page .section-title {
+        text-align: left;
+        margin-bottom: 3rem;
+    }
+    .legal-page .container {
+        max-width: 800px;
+    }
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-display);
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 2rem;
+        color: var(--black);
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+    }
+    .back-link:hover {
+        opacity: 1;
+    }
+    .legal-content h3 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+    .legal-content p {
+        margin-bottom: 1rem;
+        line-height: 1.6;
+        color: var(--black-soft);
+    }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+    <a href="index.html#home" class="nav-logo">EG</a>
+    <button class="nav-toggle" aria-label="Menu öffnen">
+        <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-list">
+        <li><a href="index.html#about">Über mich</a></li>
+        <li><a href="index.html#work">Arbeiten</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+</nav>
+
+<main class="legal-page">
+    <div class="container">
+        <a href="index.html" class="back-link">← Zurück zur Startseite</a>
+        
+        <p class="eyebrow">Rechtliches</p>
+        <h2 class="section-title">Impressum</h2>
+
+        <div class="legal-content">
+            <h3>Angaben gemäß § 5 TMG</h3>
+            <p>
+                Emili Gaßner<br>
+                Erlenstraße 5<br>
+                84166 Adlkofen
+            </p>
+
+            <h3>Kontakt</h3>
+            <p>
+                Telefon: +49 152 54300672<br>
+                E-Mail: emiligassner2@gmail.com
+            </p>
+
+            <h3>Redaktionell verantwortlich</h3>
+            <p>
+                Emili Gaßner<br>
+                Erlenstraße 5<br>
+                84166 Adlkofen
+            </p>
+
+            <h3>EU-Streitschlichtung</h3>
+            <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.<br>Unsere E-Mail-Adresse finden Sie oben im Impressum.</p>
+
+            <h3>Verbraucherstreitbeilegung/Universalschlichtungsstelle</h3>
+            <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <p class="footer-name">Emili Gaßner</p>
+                <p class="footer-tagline">Gestalterin für visuelles Marketing<br>zertifizierte Grafikdesignerin</p>
+            </div>
+            <nav class="footer-nav">
+                <a href="index.html#about">Über mich</a>
+                <a href="index.html#work">Arbeiten</a>
+                <a href="kontakt.html">Kontakt</a>
+            </nav>
+            <div class="footer-legal">
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutz</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© <span id="year"></span> Emili Gaßner. Alle Rechte vorbehalten.</p>
+            <p>Gestaltet mit Liebe in Vilsbiburg.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

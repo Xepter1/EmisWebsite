@@ -1,152 +1,163 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kontakt — Emili Gaßner</title>
-<meta name="description" content="Kontaktformular von Emili Gaßner — Grafikdesignerin & Gestalterin für visuelles Marketing.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Caveat:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<style>
-    /* Spezifische Styles für die Kontaktseite */
-    .contact-page {
-        padding-top: 12rem;
-        background: var(--cream-light);
-        min-height: 80vh;
-    }
-    .contact-page .section-title {
-        text-align: left;
-        margin-bottom: 2rem;
-    }
-    .contact-page .container {
-        max-width: 1100px;
-    }
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-family: var(--font-display);
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 2rem;
-        color: var(--black);
-        opacity: 0.6;
-        transition: opacity 0.3s ease;
-    }
-    .back-link:hover {
-        opacity: 1;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt — Emili Gaßner</title>
+    <meta name="description"
+        content="Kontaktformular von Emili Gaßner — Grafikdesignerin & Gestalterin für visuelles Marketing.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Caveat:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Spezifische Styles für die Kontaktseite */
+        .contact-page {
+            padding-top: 12rem;
+            background: var(--cream-light);
+            min-height: 80vh;
+        }
+
+        .contact-page .section-title {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .contact-page .container {
+            max-width: 1100px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            color: var(--black);
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- NAVIGATION -->
-<nav class="nav">
-    <a href="index.html#home" class="nav-logo">EG</a>
-    <button class="nav-toggle" aria-label="Menu öffnen">
-        <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-list">
-        <li><a href="index.html#about">Über mich</a></li>
-        <li><a href="index.html#work">Arbeiten</a></li>
-        <li><a href="kontakt.html" class="active">Kontakt</a></li>
-    </ul>
-</nav>
+    <!-- NAVIGATION -->
+    <nav class="nav">
+        <a href="index.html#home" class="nav-logo">EG</a>
+        <button class="nav-toggle" aria-label="Menu öffnen">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-list">
+            <li><a href="index.html#about">Über mich</a></li>
+            <li><a href="index.html#work">Arbeiten</a></li>
+            <li><a href="kontakt.html" class="active">Kontakt</a></li>
+        </ul>
+    </nav>
 
-<main class="contact-page">
-    <div class="container">
-        <a href="index.html" class="back-link">← Zurück zur Startseite</a>
-        
-        <p class="eyebrow">Kontakt</p>
-        <h2 class="section-title">Lass uns sprechen.</h2>
-        <p class="contact-intro" style="text-align: left; margin-left: 0;">
-            Du hast ein Projekt im Kopf, eine Idee oder möchtest einfach hallo sagen? Ich freue mich über Nachrichten — antworte in der Regel innerhalb von 24 Stunden.
-        </p>
+    <main class="contact-page">
+        <div class="container">
+            <a href="index.html" class="back-link">← Zurück zur Startseite</a>
 
-        <div class="contact-grid">
-            <form class="contact-form" id="contactForm" novalidate>
-                <div class="form-row">
-                    <div class="form-field">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                        <span class="form-error" data-for="name"></span>
+            <p class="eyebrow">Kontakt</p>
+            <h2 class="section-title">Lass uns sprechen.</h2>
+            <p class="contact-intro" style="text-align: left; margin-left: 0;">
+                Du hast ein Projekt im Kopf oder eine Idee? Ich freue mich über Nachrichten — antworte in der Regel
+                innerhalb von 24 Stunden.
+            </p>
+
+            <div class="contact-grid">
+                <form class="contact-form" id="contactForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                            <span class="form-error" data-for="name"></span>
+                        </div>
+                        <div class="form-field">
+                            <label for="email">E-Mail</label>
+                            <input type="email" id="email" name="email" required>
+                            <span class="form-error" data-for="email"></span>
+                        </div>
                     </div>
+
                     <div class="form-field">
-                        <label for="email">E-Mail</label>
-                        <input type="email" id="email" name="email" required>
-                        <span class="form-error" data-for="email"></span>
+                        <label for="subject">Betreff</label>
+                        <input type="text" id="subject" name="subject" required>
+                        <span class="form-error" data-for="subject"></span>
                     </div>
-                </div>
 
-                <div class="form-field">
-                    <label for="subject">Betreff</label>
-                    <input type="text" id="subject" name="subject" required>
-                    <span class="form-error" data-for="subject"></span>
-                </div>
+                    <div class="form-field">
+                        <label for="message">Nachricht</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                        <span class="form-error" data-for="message"></span>
+                    </div>
 
-                <div class="form-field">
-                    <label for="message">Nachricht</label>
-                    <textarea id="message" name="message" rows="6" required></textarea>
-                    <span class="form-error" data-for="message"></span>
-                </div>
+                    <button type="submit" class="form-submit">
+                        Nachricht senden
+                        <span class="arrow">→</span>
+                    </button>
 
-                <button type="submit" class="form-submit">
-                    Nachricht senden
-                    <span class="arrow">→</span>
-                </button>
+                    <p class="form-success" id="formSuccess">
+                        Vielen Dank! Dein E-Mail-Programm öffnet sich gleich mit der vorbereiteten Nachricht.
+                    </p>
+                </form>
 
-                <p class="form-success" id="formSuccess">
-                    Vielen Dank! Dein E-Mail-Programm öffnet sich gleich mit der vorbereiteten Nachricht.
-                </p>
-            </form>
-
-            <aside class="contact-info">
-                <div class="contact-block">
-                    <p class="contact-label">E-Mail</p>
-                    <a href="mailto:emiligassner2@gmail.com">emiligassner2@gmail.com</a>
-                </div>
-                <div class="contact-block">
-                    <p class="contact-label">Telefon</p>
-                    <a href="tel:+4915254300672">+49 152 54300672</a>
-                </div>
-                <div class="contact-block">
-                    <p class="contact-label">Standort</p>
-                    <p>84137 Vilsbiburg<br>Bayern, Deutschland</p>
-                </div>
-            </aside>
-        </div>
-    </div>
-</main>
-
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <p class="footer-name">Emili Gaßner</p>
-                <p class="footer-tagline">Gestalterin für visuelles Marketing<br>zertifizierte Grafikdesignerin</p>
-            </div>
-            <nav class="footer-nav">
-                <a href="index.html#about">Über mich</a>
-                <a href="index.html#work">Arbeiten</a>
-                <a href="kontakt.html">Kontakt</a>
-            </nav>
-            <div class="footer-legal">
-                <a href="#" id="impressumLink">Impressum</a>
-                <a href="#" id="datenschutzLink">Datenschutz</a>
+                <aside class="contact-info">
+                    <div class="contact-block">
+                        <p class="contact-label">E-Mail</p>
+                        <a href="mailto:emiligassner2@gmail.com">emiligassner2@gmail.com</a>
+                    </div>
+                    <div class="contact-block">
+                        <p class="contact-label">Telefon</p>
+                        <a href="tel:+4915254300672">+49 152 54300672</a>
+                    </div>
+                    <div class="contact-block">
+                        <p class="contact-label">Standort</p>
+                        <p>84137 Vilsbiburg<br>Bayern, Deutschland</p>
+                    </div>
+                </aside>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© <span id="year"></span> Emili Gaßner. Alle Rechte vorbehalten.</p>
-            <p>Gestaltet mit Liebe in Vilsbiburg.</p>
-        </div>
-    </div>
-</footer>
+    </main>
 
-<script src="script.js"></script>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <p class="footer-name">Emili Gaßner</p>
+                    <p class="footer-tagline">Gestalterin für visuelles Marketing<br>zertifizierte Grafikdesignerin</p>
+                </div>
+                <nav class="footer-nav">
+                    <a href="index.html#about">Über mich</a>
+                    <a href="index.html#work">Arbeiten</a>
+                    <a href="kontakt.html">Kontakt</a>
+                </nav>
+                <div class="footer-legal">
+                    <a href="impressum.html">Impressum</a>
+                    <a href="datenschutz.html">Datenschutz</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© <span id="year"></span> Emili Gaßner. Alle Rechte vorbehalten.</p>
+                <p>Gestaltet mit Liebe in Vilsbiburg.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
+
 </html>

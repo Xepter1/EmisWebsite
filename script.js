@@ -280,23 +280,9 @@
     }
 
     // ============================================
-    // IMPRESSUM / DATENSCHUTZ — Platzhalter
+    // IMPRESSUM / DATENSCHUTZ
     // ============================================
-    const impressumLink = document.getElementById('impressumLink');
-    const datenschutzLink = document.getElementById('datenschutzLink');
-
-    if (impressumLink) {
-        impressumLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Impressum-Seite noch nicht hinterlegt.\n\nFür den Live-Betrieb in Deutschland ist ein Impressum gesetzlich vorgeschrieben (§ 5 TMG). Es sollte mindestens enthalten: vollständigen Namen, Anschrift, Kontaktmöglichkeit (E-Mail, Telefon) und ggf. Umsatzsteuer-ID.');
-        });
-    }
-
-    if (datenschutzLink) {
-        datenschutzLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Datenschutzerklärung noch nicht hinterlegt.\n\nFür den Live-Betrieb in Deutschland/EU ist eine DSGVO-konforme Datenschutzerklärung Pflicht — vor allem wegen des Kontaktformulars. Ein Generator wie e-recht24.de oder datenschutz-generator.de hilft beim schnellen Erstellen.');
-        });
-    }
+    // Die Links führen nun direkt zu den HTML-Dateien.
+    // Eventuelle zusätzliche Logik kann hier ergänzt werden.
 
 })();
