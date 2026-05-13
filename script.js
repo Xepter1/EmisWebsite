@@ -193,14 +193,22 @@
             setTimeout(() => successEl.classList.remove('visible'), 8000);
         };
 
-        const submitMailto = (data) => {
-            const subject = encodeURIComponent(`[Portfolio] ${data.subject}`);
-            const body = encodeURIComponent(
-                `Hallo Emili,\n\n${data.message}\n\n— ${data.name}\n${data.email}`
-            );
-            window.location.href = `mailto:${RECIPIENT}?subject=${subject}&body=${body}`;
-            showSuccess('Dein E-Mail-Programm öffnet sich gleich mit der vorbereiteten Nachricht.');
-            form.reset();
+        const submitToBackend = async (data) => {
+            try {
+                const res = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) {
+                    showSuccess('Vielen Dank! Deine Nachricht wurde erfolgreich gesendet.');
+                    form.reset();
+                } else {
+                    showSuccess('Server-Fehler. Bitte versuche es später nochmal oder per E-Mail.');
+                }
+            } catch (err) {
+                showSuccess('Verbindungsfehler. Bitte prüfe deine Internetverbindung oder schreibe mir direkt.');
+            }
         };
 
         const submitFormspree = async (data) => {
@@ -266,7 +274,7 @@
             } else if (FORM_MODE === 'web3forms' && WEB3FORMS_KEY) {
                 submitWeb3forms(data);
             } else {
-                submitMailto(data);
+                submitToBackend(data);
             }
         });
     }

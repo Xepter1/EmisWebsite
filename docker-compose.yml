@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  website:
+    build: .
+    ports:
+      - "8080:80" # Die Website ist dann unter http://deine-ip:8080 erreichbar
+    restart: always
+
+  mail-server:
+    build: ./backend
+    environment:
+      - SMTP_HOST=your.smtp.server.com # z.B. smtp.gmail.com oder dein eigener
+      - SMTP_PORT=587
+      - SMTP_USER=your-email@example.com
+      - SMTP_PASS=your-password-or-app-password
+      - TARGET_EMAIL=emilixga@icloud.com
+    restart: always

@@ -1,0 +1,11 @@
+{
+  "name": "portfolio-mail-handler",
+  "version": "1.0.0",
+  "description": "Handles contact form submissions for Emili's portfolio",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.7",
+    "cors": "^2.8.5"
+  }
+}
