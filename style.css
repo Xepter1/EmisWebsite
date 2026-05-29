@@ -333,6 +333,37 @@ button {
     z-index: 2;
 }
 
+.hero-grid--no-image {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-grid--no-image .hero-divider {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-signature-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    animation: heroTextIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
+}
+
+.hero-signature-img {
+    max-height: clamp(60px, 10vw, 120px);
+    width: auto;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* Ensures signature is visible on dark bg if black */
+}
+
+.section-title--centered {
+    text-align: center !important;
+}
+
 /* ---- Profile Image with Glow Ring ---- */
 .hero-image {
     position: relative;
