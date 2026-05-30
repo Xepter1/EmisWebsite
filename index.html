@@ -143,13 +143,27 @@
                             <div class="velo-book-spine"></div>
                             
                             <!-- Static Pages (representing the currently opened book) -->
-                            <div class="velo-page velo-page--left" id="velo-static-left" style="background-image: url('images/brandbook-mock-1.jpg');"></div>
-                            <div class="velo-page velo-page--right" id="velo-static-right" style="background-image: url('images/brandbook-mock-1.jpg');"></div>
-                            
+                            <div class="velo-page velo-page--left" id="velo-static-left"></div>
+                            <div class="velo-page velo-page--right" id="velo-static-right"></div>
+
+                            <!-- Stacked page edges (3D thickness) -->
+                            <div class="velo-book-edge velo-book-edge--left"></div>
+                            <div class="velo-book-edge velo-book-edge--right"></div>
+                            <div class="velo-book-edge velo-book-edge--bottom"></div>
+
                             <!-- The Flipping Sheet (only visible/moving during transitions) -->
                             <div class="velo-flipping-sheet" id="velo-flipping-sheet">
                                 <div class="velo-flipping-face velo-flipping-face--front"></div>
                                 <div class="velo-flipping-face velo-flipping-face--back"></div>
+                            </div>
+
+                            <!-- Front Cover (book starts closed, click to open) -->
+                            <div class="velo-book-cover" id="velo-book-cover" role="button" tabindex="0" aria-label="Brand Book öffnen">
+                                <div class="velo-book-cover-inner">
+                                    <img src="images/velo-logo.png" alt="Velo Dynamics" class="velo-book-cover-logo">
+                                    <span class="velo-book-cover-label">Brand Book</span>
+                                    <span class="velo-book-cover-hint">Tippen zum Öffnen</span>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -298,104 +298,129 @@
     const flippingSheet = document.getElementById('velo-flipping-sheet');
     const flippingFront = flippingSheet ? flippingSheet.querySelector('.velo-flipping-face--front') : null;
     const flippingBack = flippingSheet ? flippingSheet.querySelector('.velo-flipping-face--back') : null;
+    const cover = document.getElementById('velo-book-cover');
 
-    const spreadImages = [
-        'images/brandbook-mock-1.jpg',
-        'images/brandbook-mock-2.jpg',
-        'images/brandbook-mock-3.jpg',
-        'images/brandbook-mock-4.jpg'
+    // Jede Seite bekommt ihr eigenes Bild: { left: '...', right: '...' }
+    // Sobald Emis finale Seiten fertig sind, einfach die Pfade hier ersetzen.
+    const spreads = [
+        { left: 'images/brandbook-mock-1.jpg', right: 'images/brandbook-mock-2.jpg' },
+        { left: 'images/brandbook-mock-3.jpg', right: 'images/brandbook-mock-4.jpg' },
+        { left: 'images/brandbook-mock-2.jpg', right: 'images/brandbook-mock-3.jpg' },
+        { left: 'images/brandbook-mock-4.jpg', right: 'images/brandbook-mock-1.jpg' },
     ];
 
     if (book && staticLeft && staticRight && flippingSheet && flippingFront && flippingBack) {
         let currentSpreadIndex = 0;
         let isTurning = false;
+        let isOpen = false;
+        const FLIP_DURATION = 1100;
+
+        function applySpread(spread) {
+            staticLeft.style.backgroundImage = `url('${spread.left}')`;
+            staticRight.style.backgroundImage = `url('${spread.right}')`;
+        }
+
+        // Show initial spread behind the closed cover
+        applySpread(spreads[0]);
+
+        function openBook() {
+            if (isOpen) return;
+            isOpen = true;
+            book.classList.add('is-open');
+        }
+
+        function closeBook() {
+            if (!isOpen || isTurning) return;
+            isOpen = false;
+            book.classList.remove('is-open');
+            currentSpreadIndex = 0;
+            applySpread(spreads[0]);
+            dots.forEach((dot, idx) => dot.classList.toggle('active', idx === 0));
+        }
 
         function showSpread(newIndex) {
-            // Normalize index (infinite wrapping)
-            if (newIndex < 0) {
-                newIndex = spreadImages.length - 1;
-            } else if (newIndex >= spreadImages.length) {
-                newIndex = 0;
-            }
+            if (newIndex < 0) newIndex = spreads.length - 1;
+            else if (newIndex >= spreads.length) newIndex = 0;
 
-            // Prevent double triggers during active animation
             if (newIndex === currentSpreadIndex || isTurning) return;
             isTurning = true;
 
-            // Determine turning direction
-            let isForward = true;
-            if (newIndex > currentSpreadIndex) {
-                isForward = true;
-            } else if (newIndex < currentSpreadIndex) {
-                isForward = false;
-            }
-            
-            // Handle wrapping direction overrides specifically
-            if (currentSpreadIndex === spreadImages.length - 1 && newIndex === 0) {
-                isForward = true;
-            }
-            if (currentSpreadIndex === 0 && newIndex === spreadImages.length - 1) {
-                isForward = false;
-            }
+            const cur = spreads[currentSpreadIndex];
+            const next = spreads[newIndex];
 
-            const currentImg = spreadImages[currentSpreadIndex];
-            const nextImg = spreadImages[newIndex];
+            const isForward = !(newIndex < currentSpreadIndex && !(currentSpreadIndex === spreads.length - 1 && newIndex === 0))
+                && !(currentSpreadIndex === 0 && newIndex === spreads.length - 1);
 
-            // Set up background images for transition
             if (isForward) {
-                // Turning Forward (page sweeps from right to left)
-                staticLeft.style.backgroundImage = `url('${currentImg}')`;
-                staticRight.style.backgroundImage = `url('${nextImg}')`;
-                flippingFront.style.backgroundImage = `url('${currentImg}')`;
-                flippingBack.style.backgroundImage = `url('${nextImg}')`;
-                
+                // Static: left stays as current-left, right shows next-right
+                staticLeft.style.backgroundImage = `url('${cur.left}')`;
+                staticRight.style.backgroundImage = `url('${next.right}')`;
+                // Flipping sheet covers the current right page and reveals next left page
+                flippingFront.style.backgroundImage = `url('${cur.right}')`;
+                flippingBack.style.backgroundImage = `url('${next.left}')`;
                 book.classList.add('turning-forward');
             } else {
-                // Turning Backward (page sweeps from left to right)
-                staticLeft.style.backgroundImage = `url('${nextImg}')`;
-                staticRight.style.backgroundImage = `url('${currentImg}')`;
-                flippingFront.style.backgroundImage = `url('${currentImg}')`;
-                flippingBack.style.backgroundImage = `url('${nextImg}')`;
-                
+                // Static: right stays as current-right, left shows next-left
+                staticLeft.style.backgroundImage = `url('${next.left}')`;
+                staticRight.style.backgroundImage = `url('${cur.right}')`;
+                // Flipping sheet covers the current left page and reveals next right page
+                flippingFront.style.backgroundImage = `url('${cur.left}')`;
+                flippingBack.style.backgroundImage = `url('${next.right}')`;
                 book.classList.add('turning-backward');
             }
 
-            // Complete page flip after CSS animation duration (0.8s)
             setTimeout(() => {
-                // Finalize layout to the new page
-                staticLeft.style.backgroundImage = `url('${nextImg}')`;
-                staticRight.style.backgroundImage = `url('${nextImg}')`;
-                
-                // Reset state
                 book.classList.remove('turning-forward', 'turning-backward');
                 currentSpreadIndex = newIndex;
                 isTurning = false;
+                applySpread(spreads[currentSpreadIndex]);
 
-                // Sync pagination dots
                 dots.forEach((dot, idx) => {
-                    if (idx === currentSpreadIndex) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
-                    }
+                    dot.classList.toggle('active', idx === currentSpreadIndex);
                 });
-            }, 800);
+            }, FLIP_DURATION);
+        }
+
+        // Open the book by clicking / tapping the cover
+        if (cover) {
+            cover.addEventListener('click', openBook);
+            cover.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openBook();
+                }
+            });
         }
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
-                showSpread(currentSpreadIndex - 1);
+                if (!isOpen) return;
+                // On the first spread, "back" closes the book again
+                if (currentSpreadIndex === 0) {
+                    closeBook();
+                } else {
+                    showSpread(currentSpreadIndex - 1);
+                }
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
+                if (!isOpen) {
+                    openBook();
+                    return;
+                }
                 showSpread(currentSpreadIndex + 1);
             });
         }
 
         dots.forEach((dot, idx) => {
             dot.addEventListener('click', () => {
+                if (!isOpen) {
+                    openBook();
+                    if (idx !== 0) showSpread(idx);
+                    return;
+                }
                 showSpread(idx);
             });
         });
@@ -419,11 +444,20 @@
         function handleSwipe() {
             const threshold = 50; // minimum swipe distance in pixels
             if (touchEndX < touchStartX - threshold) {
-                // Swipe left -> Next page
-                showSpread(currentSpreadIndex + 1);
+                // Swipe left -> open or next page
+                if (!isOpen) {
+                    openBook();
+                } else {
+                    showSpread(currentSpreadIndex + 1);
+                }
             } else if (touchEndX > touchStartX + threshold) {
-                // Swipe right -> Previous page
-                showSpread(currentSpreadIndex - 1);
+                // Swipe right -> previous page, or close on the first spread
+                if (!isOpen) return;
+                if (currentSpreadIndex === 0) {
+                    closeBook();
+                } else {
+                    showSpread(currentSpreadIndex - 1);
+                }
             }
         }
     }
