@@ -1506,6 +1506,7 @@ button {
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.08);
+    perspective: 1500px;
 }
 
 /* Spine Crease Depth Shadow */
@@ -1531,31 +1532,69 @@ button {
 .velo-spread {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     opacity: 0;
-    transform: scale(0.975);
-    transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     pointer-events: none;
     z-index: 1;
+    transform-style: preserve-3d;
+    transition: opacity 0.6s ease;
 }
 
 .velo-spread.active {
     opacity: 1;
-    transform: scale(1);
     pointer-events: auto;
     z-index: 2;
 }
 
-/* Page Glow / Reflection Layer */
-.velo-spread::after {
+/* Splitting Pages with 3D Spine Hinge-Fold Animation */
+.velo-page {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: transform 0.75s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.75s ease;
+    z-index: 2;
+}
+
+/* Page Glow / Reflection Layer overlay on each page */
+.velo-page::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.025) 0%, transparent 50%, rgba(0,0,0,0.04) 100%);
+    background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 50%, rgba(0,0,0,0.03) 100%);
     pointer-events: none;
     z-index: 3;
+}
+
+.velo-page--left {
+    left: 0;
+    background-position: left center;
+    transform-origin: right center;
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+    transform: rotateY(90deg);
+    opacity: 0;
+}
+
+.velo-page--right {
+    right: 0;
+    background-position: right center;
+    transform-origin: left center;
+    transform: rotateY(-90deg);
+    opacity: 0;
+}
+
+.velo-spread.active .velo-page--left {
+    transform: rotateY(0deg);
+    opacity: 1;
+}
+
+.velo-spread.active .velo-page--right {
+    transform: rotateY(0deg);
+    opacity: 1;
 }
 
 /* Navigation Arrow Buttons */
