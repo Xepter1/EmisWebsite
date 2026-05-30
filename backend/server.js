@@ -16,11 +16,15 @@ const TARGET_EMAIL = process.env.TARGET_EMAIL || 'emilixga@icloud.com';
 
 const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
-    port: SMTP_PORT,
-    secure: false, // true für 465, false für andere Ports
+    port: parseInt(SMTP_PORT, 10),
+    secure: process.env.SMTP_SECURE === 'true' || parseInt(SMTP_PORT, 10) === 465, // true for port 465, false for 587 or other ports
     auth: {
         user: SMTP_USER,
         pass: SMTP_PASS
+    },
+    tls: {
+        // Prevent SSL handshake errors on standard hosting setups
+        rejectUnauthorized: false
     }
 });
 
