@@ -285,4 +285,90 @@
     // Die Links führen nun direkt zu den HTML-Dateien.
     // Eventuelle zusätzliche Logik kann hier ergänzt werden.
 
+    // ============================================
+    // VELO DYNAMICS: Brand Book Slider
+    // ============================================
+    const prevBtn = document.getElementById('velo-book-prev');
+    const nextBtn = document.getElementById('velo-book-next');
+    const spreads = document.querySelectorAll('.velo-spread');
+    const dots = document.querySelectorAll('.velo-book-dot');
+
+    if (spreads.length > 0) {
+        let currentSpread = 0;
+
+        function showSpread(index) {
+            // Keep index within bounds (infinite wrapping)
+            if (index < 0) {
+                currentSpread = spreads.length - 1;
+            } else if (index >= spreads.length) {
+                currentSpread = 0;
+            } else {
+                currentSpread = index;
+            }
+
+            // Update spreads visibility
+            spreads.forEach((spread, idx) => {
+                if (idx === currentSpread) {
+                    spread.classList.add('active');
+                } else {
+                    spread.classList.remove('active');
+                }
+            });
+
+            // Update pagination dots
+            dots.forEach((dot, idx) => {
+                if (idx === currentSpread) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                showSpread(currentSpread - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                showSpread(currentSpread + 1);
+            });
+        }
+
+        dots.forEach((dot, idx) => {
+            dot.addEventListener('click', () => {
+                showSpread(idx);
+            });
+        });
+
+        // Touch Gestures for mobile (swipe left/right to change spreads)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const bookFrame = document.querySelector('.velo-book-frame');
+
+        if (bookFrame) {
+            bookFrame.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            bookFrame.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+        }
+
+        function handleSwipe() {
+            const threshold = 50; // minimum swipe distance in pixels
+            if (touchEndX < touchStartX - threshold) {
+                // Swipe left -> Next page
+                showSpread(currentSpread + 1);
+            } else if (touchEndX > touchStartX + threshold) {
+                // Swipe right -> Previous page
+                showSpread(currentSpread - 1);
+            }
+        }
+    }
+
 })();
