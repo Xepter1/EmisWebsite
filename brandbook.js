@@ -176,10 +176,10 @@
             
             if (idx < activeSheetIndex) {
                 sheet.classList.add('flipped');
-                sheet.style.transform = `rotateY(-180deg) translateZ(${idx * 0.5}px)`;
+                sheet.style.transform = 'rotateY(-180deg)';
                 sheet.style.zIndex = idx;
             } else {
-                sheet.style.transform = `rotateY(0deg) translateZ(${(totalSheets - idx) * 0.5}px)`;
+                sheet.style.transform = 'rotateY(0deg)';
                 sheet.style.zIndex = totalSheets - idx;
             }
         });
