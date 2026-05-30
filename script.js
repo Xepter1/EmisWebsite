@@ -286,54 +286,110 @@
     // Eventuelle zusätzliche Logik kann hier ergänzt werden.
 
     // ============================================
-    // VELO DYNAMICS: Brand Book Slider
+    // VELO DYNAMICS: Classical 3D Page Flip Slider
     // ============================================
     const prevBtn = document.getElementById('velo-book-prev');
     const nextBtn = document.getElementById('velo-book-next');
-    const spreads = document.querySelectorAll('.velo-spread');
     const dots = document.querySelectorAll('.velo-book-dot');
+    
+    const book = document.getElementById('velo-book');
+    const staticLeft = document.getElementById('velo-static-left');
+    const staticRight = document.getElementById('velo-static-right');
+    const flippingSheet = document.getElementById('velo-flipping-sheet');
+    const flippingFront = flippingSheet ? flippingSheet.querySelector('.velo-flipping-face--front') : null;
+    const flippingBack = flippingSheet ? flippingSheet.querySelector('.velo-flipping-face--back') : null;
 
-    if (spreads.length > 0) {
-        let currentSpread = 0;
+    const spreadImages = [
+        'images/brandbook-2-3.jpg',
+        'images/brandbook-6-7.jpg',
+        'images/brandbook-10-11.jpg'
+    ];
 
-        function showSpread(index) {
-            // Keep index within bounds (infinite wrapping)
-            if (index < 0) {
-                currentSpread = spreads.length - 1;
-            } else if (index >= spreads.length) {
-                currentSpread = 0;
-            } else {
-                currentSpread = index;
+    if (book && staticLeft && staticRight && flippingSheet && flippingFront && flippingBack) {
+        let currentSpreadIndex = 0;
+        let isTurning = false;
+
+        function showSpread(newIndex) {
+            // Normalize index (infinite wrapping)
+            if (newIndex < 0) {
+                newIndex = spreadImages.length - 1;
+            } else if (newIndex >= spreadImages.length) {
+                newIndex = 0;
             }
 
-            // Update spreads visibility
-            spreads.forEach((spread, idx) => {
-                if (idx === currentSpread) {
-                    spread.classList.add('active');
-                } else {
-                    spread.classList.remove('active');
-                }
-            });
+            // Prevent double triggers during active animation
+            if (newIndex === currentSpreadIndex || isTurning) return;
+            isTurning = true;
 
-            // Update pagination dots
-            dots.forEach((dot, idx) => {
-                if (idx === currentSpread) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
+            // Determine turning direction
+            let isForward = true;
+            if (newIndex > currentSpreadIndex) {
+                isForward = true;
+            } else if (newIndex < currentSpreadIndex) {
+                isForward = false;
+            }
+            
+            // Handle wrapping direction overrides specifically
+            if (currentSpreadIndex === spreadImages.length - 1 && newIndex === 0) {
+                isForward = true;
+            }
+            if (currentSpreadIndex === 0 && newIndex === spreadImages.length - 1) {
+                isForward = false;
+            }
+
+            const currentImg = spreadImages[currentSpreadIndex];
+            const nextImg = spreadImages[newIndex];
+
+            // Set up background images for transition
+            if (isForward) {
+                // Turning Forward (page sweeps from right to left)
+                staticLeft.style.backgroundImage = `url('${currentImg}')`;
+                staticRight.style.backgroundImage = `url('${nextImg}')`;
+                flippingFront.style.backgroundImage = `url('${currentImg}')`;
+                flippingBack.style.backgroundImage = `url('${nextImg}')`;
+                
+                book.classList.add('turning-forward');
+            } else {
+                // Turning Backward (page sweeps from left to right)
+                staticLeft.style.backgroundImage = `url('${nextImg}')`;
+                staticRight.style.backgroundImage = `url('${currentImg}')`;
+                flippingFront.style.backgroundImage = `url('${currentImg}')`;
+                flippingBack.style.backgroundImage = `url('${nextImg}')`;
+                
+                book.classList.add('turning-backward');
+            }
+
+            // Complete page flip after CSS animation duration (0.8s)
+            setTimeout(() => {
+                // Finalize layout to the new page
+                staticLeft.style.backgroundImage = `url('${nextImg}')`;
+                staticRight.style.backgroundImage = `url('${nextImg}')`;
+                
+                // Reset state
+                book.classList.remove('turning-forward', 'turning-backward');
+                currentSpreadIndex = newIndex;
+                isTurning = false;
+
+                // Sync pagination dots
+                dots.forEach((dot, idx) => {
+                    if (idx === currentSpreadIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }, 800);
         }
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
-                showSpread(currentSpread - 1);
+                showSpread(currentSpreadIndex - 1);
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
-                showSpread(currentSpread + 1);
+                showSpread(currentSpreadIndex + 1);
             });
         }
 
@@ -343,7 +399,7 @@
             });
         });
 
-        // Touch Gestures for mobile (swipe left/right to change spreads)
+        // Touch swipe gestures for mobile (swipe left/right to change pages)
         let touchStartX = 0;
         let touchEndX = 0;
         const bookFrame = document.querySelector('.velo-book-frame');
@@ -363,10 +419,10 @@
             const threshold = 50; // minimum swipe distance in pixels
             if (touchEndX < touchStartX - threshold) {
                 // Swipe left -> Next page
-                showSpread(currentSpread + 1);
+                showSpread(currentSpreadIndex + 1);
             } else if (touchEndX > touchStartX + threshold) {
                 // Swipe right -> Previous page
-                showSpread(currentSpread - 1);
+                showSpread(currentSpreadIndex - 1);
             }
         }
     }

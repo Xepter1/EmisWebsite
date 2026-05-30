@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Caveat:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=1.2">
+    <link rel="stylesheet" href="style.css?v=1.3">
 </head>
 
 <body>
@@ -138,22 +138,18 @@
                     
                     <!-- Book Frame -->
                     <div class="velo-book-frame">
-                        <div class="velo-book">
+                        <div class="velo-book" id="velo-book">
                             <!-- Spine Crease Shadow -->
                             <div class="velo-book-spine"></div>
                             
-                            <!-- Spreads -->
-                            <div class="velo-spread active">
-                                <div class="velo-page velo-page--left" style="background-image: url('images/brandbook-2-3.jpg');"></div>
-                                <div class="velo-page velo-page--right" style="background-image: url('images/brandbook-2-3.jpg');"></div>
-                            </div>
-                            <div class="velo-spread">
-                                <div class="velo-page velo-page--left" style="background-image: url('images/brandbook-6-7.jpg');"></div>
-                                <div class="velo-page velo-page--right" style="background-image: url('images/brandbook-6-7.jpg');"></div>
-                            </div>
-                            <div class="velo-spread">
-                                <div class="velo-page velo-page--left" style="background-image: url('images/brandbook-10-11.jpg');"></div>
-                                <div class="velo-page velo-page--right" style="background-image: url('images/brandbook-10-11.jpg');"></div>
+                            <!-- Static Pages (representing the currently opened book) -->
+                            <div class="velo-page velo-page--left" id="velo-static-left" style="background-image: url('images/brandbook-2-3.jpg');"></div>
+                            <div class="velo-page velo-page--right" id="velo-static-right" style="background-image: url('images/brandbook-2-3.jpg');"></div>
+                            
+                            <!-- The Flipping Sheet (only visible/moving during transitions) -->
+                            <div class="velo-flipping-sheet" id="velo-flipping-sheet">
+                                <div class="velo-flipping-face velo-flipping-face--front"></div>
+                                <div class="velo-flipping-face velo-flipping-face--back"></div>
                             </div>
                         </div>
                     </div>
@@ -343,7 +339,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=1.2"></script>
+    <script src="script.js?v=1.3"></script>
 </body>
 
 </html>
