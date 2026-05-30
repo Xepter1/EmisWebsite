@@ -300,9 +300,10 @@
     const flippingBack = flippingSheet ? flippingSheet.querySelector('.velo-flipping-face--back') : null;
 
     const spreadImages = [
-        'images/brandbook-2-3.jpg',
-        'images/brandbook-6-7.jpg',
-        'images/brandbook-10-11.jpg'
+        'images/brandbook-mock-1.jpg',
+        'images/brandbook-mock-2.jpg',
+        'images/brandbook-mock-3.jpg',
+        'images/brandbook-mock-4.jpg'
     ];
 
     if (book && staticLeft && staticRight && flippingSheet && flippingFront && flippingBack) {
