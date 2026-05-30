@@ -1291,12 +1291,18 @@ body.brandbook-mode {
     
     .book-stage {
         padding: 1rem 0;
+        perspective: none !important; /* flat slider mode on mobile */
     }
     
     /* Reposition container for single page width centering */
     .book-container {
         width: var(--page-width);
         height: var(--page-height);
+        transform: none !important; /* disable spine displacement on mobile */
+    }
+    
+    .book {
+        transform: none !important;
     }
     
     /* Spine sits at left edge of screen or spine center is hidden */
@@ -1304,6 +1310,9 @@ body.brandbook-mode {
         left: 0;
         width: 100%;
         height: 100%;
+        transform: none !important;
+        transform-origin: center center !important;
+        transition: none !important;
     }
     
     /* Center Spine decoration is disabled in single page view */
@@ -1312,19 +1321,46 @@ body.brandbook-mode {
     }
     
     .page {
+        position: absolute;
+        inset: 0;
         border-radius: 8px !important;
         padding: 1.8rem;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25) !important;
+        transform: none !important;
+        transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+    
+    /* Mobile slide deck transitions: slide page-by-page */
+    .page.active-mobile {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0) scale(1) !important;
+        pointer-events: auto;
+        z-index: 10;
+    }
+    
+    .page.flipped-mobile {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(-100%) scale(0.9) !important;
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .page.next-mobile {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(100%) scale(0.9) !important;
+        pointer-events: none;
+        z-index: 1;
     }
     
     /* Disable inner binding shadows on mobile */
     .page::before {
-        display: none;
-    }
-    
-    /* Flipped sheets rotate out of the way or stack under */
-    .sheet.flipped {
-        transform: rotateY(-180deg) translateZ(-1px);
+        display: none !important;
     }
     
     .controls-deck {
@@ -1362,5 +1398,34 @@ body.brandbook-mode {
 /* Hide ambient paper sheen and inner card borders on direct design graphics */
 .page-spread-left::after, .page-spread-right::after {
     display: none !important;
+}
+
+/* ==========================================================================
+   DESKTOP WEBKIT / SAFARI 3D VISIBILITY BLEED-THROUGH FIX
+   ========================================================================== */
+@media (min-width: 769px) {
+    /* Hide the backface page completely when sheet is flat (unflipped) */
+    .sheet:not(.flipped) .page-back {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    .sheet:not(.flipped) .page-front {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+    
+    /* Hide the frontface page completely when sheet is rotated flat (flipped) */
+    .sheet.flipped .page-front {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    .sheet.flipped .page-back {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
 }
 

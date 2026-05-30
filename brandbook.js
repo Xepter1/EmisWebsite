@@ -1,17 +1,28 @@
 /* ==========================================================================
-   EMS DESIGN — INTERACTIVE 3D CORPORATE BRAND BOOK JS
+   EMS DESIGN — INTERACTIVE 3D CORPORATE BRAND BOOK JS (RESPONSIVE)
    ========================================================================== */
 
 (function () {
     'use strict';
 
     // State Variables
-    let activeSheetIndex = 0; // 0 = closed front, 1 to 4 = open pages, 5 = closed back
+    let isMobileMode = false;
+    let activeSheetIndex = 0; // Desktop: 0 to 6 (for 6 sheets)
+    let activePageIndex = 0;  // Mobile: 0 to 11 (for 12 individual pages)
+    
     const sheets = document.querySelectorAll('.sheet');
     const totalSheets = sheets.length;
+    const totalPages = totalSheets * 2;
     const bookContainer = document.getElementById('bookContainer');
     const pageIndicator = document.getElementById('pageIndicator');
     
+    // Flatten all pages in exact order for mobile card sliding
+    const allPages = [];
+    sheets.forEach(sheet => {
+        allPages.push(sheet.querySelector('.page-front'));
+        allPages.push(sheet.querySelector('.page-back'));
+    });
+
     // Control Buttons
     const btnPrev = document.getElementById('btnPrev');
     const btnNext = document.getElementById('btnNext');
@@ -28,15 +39,12 @@
     // Gesture detection variables
     let startX = 0;
     let isDragging = false;
-    const swipeThreshold = 50;
+    const swipeThreshold = 40;
 
     // ==========================================================================
     // AUDIO SYNTHESIS: WEB AUDIO API
     // ==========================================================================
     
-    /**
-     * Initializes the Audio Context (must be triggered by a user gesture)
-     */
     function initAudio() {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -46,10 +54,6 @@
         }
     }
 
-    /**
-     * Synthesizes a highly realistic organic paper-flipping / rustling sound.
-     * Uses a filtered white noise sweep with volume envelopes.
-     */
     function playPaperSound() {
         if (isMuted) return;
         
@@ -57,7 +61,7 @@
             initAudio();
             if (!audioCtx) return;
 
-            const duration = 0.55;
+            const duration = 0.50;
             const bufferSize = audioCtx.sampleRate * duration;
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
@@ -70,34 +74,30 @@
             const noiseSource = audioCtx.createBufferSource();
             noiseSource.buffer = buffer;
 
-            // 2. Bandpass Filter (sweeps frequency down to simulate page rotation pitch change)
+            // 2. Bandpass Filter (frequency sweep)
             const bandpass = audioCtx.createBiquadFilter();
             bandpass.type = 'bandpass';
-            bandpass.Q.value = 3.5;
-            bandpass.frequency.setValueAtTime(850, audioCtx.currentTime);
-            bandpass.frequency.exponentialRampToValueAtTime(160, audioCtx.currentTime + duration);
+            bandpass.Q.value = 4.0;
+            bandpass.frequency.setValueAtTime(800, audioCtx.currentTime);
+            bandpass.frequency.exponentialRampToValueAtTime(170, audioCtx.currentTime + duration);
 
-            // 3. Lowpass Filter (warms the sound, removes harsh digital highs)
+            // 3. Lowpass Filter
             const lowpass = audioCtx.createBiquadFilter();
             lowpass.type = 'lowpass';
-            lowpass.frequency.setValueAtTime(2000, audioCtx.currentTime);
-            lowpass.frequency.exponentialRampToValueAtTime(700, audioCtx.currentTime + duration);
+            lowpass.frequency.setValueAtTime(1800, audioCtx.currentTime);
+            lowpass.frequency.exponentialRampToValueAtTime(650, audioCtx.currentTime + duration);
 
-            // 4. Gain Node (Volume envelope to simulate initial acceleration and smooth exit decay)
+            // 4. Gain Node (Volume envelope)
             const gainNode = audioCtx.createGain();
             gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
-            // Linear ramp up for the quick acceleration snap of flipping paper
-            gainNode.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.08);
-            // Exponential decay down to silence as page settles
+            gainNode.gain.linearRampToValueAtTime(0.045, audioCtx.currentTime + 0.07);
             gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
 
-            // Connect graph
             noiseSource.connect(bandpass);
             bandpass.connect(lowpass);
             lowpass.connect(gainNode);
             gainNode.connect(audioCtx.destination);
 
-            // Play the synthetic sound
             noiseSource.start();
             noiseSource.stop(audioCtx.currentTime + duration);
         } catch (e) {
@@ -106,13 +106,60 @@
     }
 
     // ==========================================================================
-    // CORE 3D PAGE-FLIPPING LOGIC
+    // RESPONSIVE MODE HANDLERS & STATE SYNCHRONIZATION
     // ==========================================================================
 
-    /**
-     * Updates the 3D book layers, active sheets, translation classes, and text UI indicators.
-     */
+    function checkResponsiveMode() {
+        const wasMobile = isMobileMode;
+        isMobileMode = window.innerWidth <= 768;
+
+        if (isMobileMode !== wasMobile) {
+            // State synchronization between desktop spreads and mobile pages
+            if (isMobileMode) {
+                // Convert sheet index to page index
+                activePageIndex = Math.max(0, activeSheetIndex * 2 - 1);
+                if (activeSheetIndex === 0) activePageIndex = 0;
+            } else {
+                // Convert page index to sheet index
+                if (activePageIndex === 0) {
+                    activeSheetIndex = 0;
+                } else {
+                    activeSheetIndex = Math.floor((activePageIndex + 1) / 2);
+                }
+            }
+            
+            // Cancel active zoom when changing viewport
+            if (bookContainer.classList.contains('zoomed')) {
+                toggleZoom();
+            }
+            
+            // Clean up mobile-specific classes from sheets on return to desktop
+            if (!isMobileMode) {
+                allPages.forEach(page => {
+                    page.classList.remove('active-mobile', 'flipped-mobile', 'next-mobile');
+                });
+            }
+        }
+        
+        updateBookState();
+    }
+
+    // ==========================================================================
+    // CORE VIEW UPDATERS
+    // ==========================================================================
+
     function updateBookState() {
+        if (isMobileMode) {
+            updateMobileView();
+        } else {
+            updateDesktopView();
+        }
+    }
+
+    /**
+     * Renders 3D spread flips and spine displacements on Desktop
+     */
+    function updateDesktopView() {
         // 1. Spine Centering Alignment Class
         bookContainer.classList.remove('closed-front', 'closed-back', 'opened');
         if (activeSheetIndex === 0) {
@@ -123,24 +170,21 @@
             bookContainer.classList.add('opened');
         }
 
-        // 2. Sheet rotations and active clickable classes
+        // 2. Sheet rotations and z-indexing
         sheets.forEach((sheet, idx) => {
-            // Reset active classes
             sheet.classList.remove('active-left', 'active-right', 'flipped');
             
             if (idx < activeSheetIndex) {
-                // Sheet is flipped to the left
                 sheet.classList.add('flipped');
-                sheet.style.transform = `rotateY(-180deg) translateZ(${idx * 0.5}px)`; // slight translateZ stack
+                sheet.style.transform = `rotateY(-180deg) translateZ(${idx * 0.5}px)`;
                 sheet.style.zIndex = idx;
             } else {
-                // Sheet is sitting on the right
-                sheet.style.transform = `rotateY(0deg) translateZ(${(totalSheets - idx) * 0.5}px)`; // slight translateZ stack
+                sheet.style.transform = `rotateY(0deg) translateZ(${(totalSheets - idx) * 0.5}px)`;
                 sheet.style.zIndex = totalSheets - idx;
             }
         });
 
-        // 3. Mark only the top-most visible left and right pages as interactive
+        // 3. Mark top-most visible left and right pages interactive
         if (activeSheetIndex > 0) {
             sheets[activeSheetIndex - 1].classList.add('active-left');
         }
@@ -148,69 +192,122 @@
             sheets[activeSheetIndex].classList.add('active-right');
         }
 
-        // 4. Update the Page Indicators text
         updateUI();
     }
 
     /**
-     * Updates the text labels in the control deck and button states.
+     * Renders fluid single page card sliders on Mobile
      */
-    function updateUI() {
-        // Human-friendly page indicators
-        let pageText = '';
-        if (activeSheetIndex === 0) {
-            pageText = 'Cover';
-        } else if (activeSheetIndex === totalSheets) {
-            pageText = 'Outro';
-        } else {
-            const leftPage = activeSheetIndex * 2;
-            const rightPage = leftPage + 1;
-            pageText = `S. ${leftPage} — ${rightPage}`;
-        }
-        pageIndicator.textContent = pageText;
+    function updateMobileView() {
+        // Reset desktop alignment styles
+        bookContainer.classList.remove('closed-front', 'closed-back', 'opened');
+        sheets.forEach(sheet => {
+            sheet.style.transform = '';
+            sheet.style.zIndex = '';
+        });
 
-        // Button disabled states
-        btnPrev.style.opacity = activeSheetIndex === 0 ? '0.4' : '1';
-        btnPrev.style.pointerEvents = activeSheetIndex === 0 ? 'none' : 'auto';
-        
-        btnNext.style.opacity = activeSheetIndex === totalSheets ? '0.4' : '1';
-        btnNext.style.pointerEvents = activeSheetIndex === totalSheets ? 'none' : 'auto';
+        // Toggle card slide stack positions
+        allPages.forEach((page, idx) => {
+            page.classList.remove('active-mobile', 'flipped-mobile', 'next-mobile');
+            if (idx === activePageIndex) {
+                page.classList.add('active-mobile');
+            } else if (idx < activePageIndex) {
+                page.classList.add('flipped-mobile');
+            } else {
+                page.classList.add('next-mobile');
+            }
+        });
+
+        updateUI();
     }
 
     /**
-     * Flips one page forward
+     * Updates labels and navigation buttons
      */
-    function nextPage() {
-        if (activeSheetIndex < totalSheets) {
-            activeSheetIndex++;
-            playPaperSound();
-            updateBookState();
+    function updateUI() {
+        let pageText = '';
+
+        if (isMobileMode) {
+            if (activePageIndex === 0) {
+                pageText = 'Cover';
+            } else if (activePageIndex === totalPages - 1) {
+                pageText = 'Outro';
+            } else {
+                pageText = `Seite ${activePageIndex + 1}`;
+            }
             
-            // If we reached the end during autoplay, stop slideshow
-            if (activeSheetIndex === totalSheets && isPlaying) {
-                togglePlay();
+            // Mobile navigation button boundaries
+            btnPrev.style.opacity = activePageIndex === 0 ? '0.4' : '1';
+            btnPrev.style.pointerEvents = activePageIndex === 0 ? 'none' : 'auto';
+            btnNext.style.opacity = activePageIndex === totalPages - 1 ? '0.4' : '1';
+            btnNext.style.pointerEvents = activePageIndex === totalPages - 1 ? 'none' : 'auto';
+        } else {
+            if (activeSheetIndex === 0) {
+                pageText = 'Cover';
+            } else if (activeSheetIndex === totalSheets) {
+                pageText = 'Outro';
+            } else {
+                const leftPage = activeSheetIndex * 2;
+                const rightPage = leftPage + 1;
+                pageText = `S. ${leftPage} — ${rightPage}`;
+            }
+
+            // Desktop navigation boundaries
+            btnPrev.style.opacity = activeSheetIndex === 0 ? '0.4' : '1';
+            btnPrev.style.pointerEvents = activeSheetIndex === 0 ? 'none' : 'auto';
+            btnNext.style.opacity = activeSheetIndex === totalSheets ? '0.4' : '1';
+            btnNext.style.pointerEvents = activeSheetIndex === totalSheets ? 'none' : 'auto';
+        }
+
+        pageIndicator.textContent = pageText;
+    }
+
+    // ==========================================================================
+    // ACTION TRIGGERS
+    // ==========================================================================
+
+    function nextPage() {
+        if (isMobileMode) {
+            if (activePageIndex < totalPages - 1) {
+                activePageIndex++;
+                playPaperSound();
+                updateBookState();
+                if (activePageIndex === totalPages - 1 && isPlaying) {
+                    togglePlay();
+                }
+            }
+        } else {
+            if (activeSheetIndex < totalSheets) {
+                activeSheetIndex++;
+                playPaperSound();
+                updateBookState();
+                if (activeSheetIndex === totalSheets && isPlaying) {
+                    togglePlay();
+                }
             }
         }
     }
 
-    /**
-     * Flips one page backward
-     */
     function prevPage() {
-        if (activeSheetIndex > 0) {
-            activeSheetIndex--;
-            playPaperSound();
-            updateBookState();
+        if (isMobileMode) {
+            if (activePageIndex > 0) {
+                activePageIndex--;
+                playPaperSound();
+                updateBookState();
+            }
+        } else {
+            if (activeSheetIndex > 0) {
+                activeSheetIndex--;
+                playPaperSound();
+                updateBookState();
+            }
         }
     }
 
     // ==========================================================================
-    // INTERACTIVE GESTURE & CLICK HANDLERS
+    // GESTURES & INTERACTION LISTENERS
     // ==========================================================================
 
-    /**
-     * Assigns event listeners to sheet clicking zones (the corner indicators)
-     */
     function setupPageCornerClicks() {
         sheets.forEach((sheet, idx) => {
             const frontCorner = sheet.querySelector('.page-front .page-corner-indicator');
@@ -232,43 +329,34 @@
         });
     }
 
-    /**
-     * Assigns touch/swipe and dragging events for smooth page flipping
-     */
     function setupDragAndDrop() {
         const stage = document.getElementById('bookStage');
         if (!stage) return;
 
-        // Mouse Drag down
         stage.addEventListener('mousedown', (e) => {
-            // Avoid conflict with interactive links inside the book
             if (e.target.closest('a') || e.target.closest('.ctrl-btn') || e.target.closest('.page-corner-indicator')) return;
-            
             startX = e.clientX;
             isDragging = true;
-            initAudio(); // Warm audio context
+            initAudio();
         });
 
-        // Touch start
         stage.addEventListener('touchstart', (e) => {
             if (e.target.closest('a') || e.target.closest('.ctrl-btn') || e.target.closest('.page-corner-indicator')) return;
-            
             startX = e.touches[0].clientX;
             isDragging = true;
-            initAudio(); // Warm audio context
+            initAudio();
         }, { passive: true });
 
-        // Mouse/Touch Move
         const handleMove = (clientX) => {
             if (!isDragging) return;
             const diffX = clientX - startX;
 
             if (diffX > swipeThreshold) {
                 prevPage();
-                isDragging = false; // block multiple fast registers
+                isDragging = false;
             } else if (diffX < -swipeThreshold) {
                 nextPage();
-                isDragging = false; // block multiple fast registers
+                isDragging = false;
             }
         };
 
@@ -280,7 +368,6 @@
             if (isDragging) handleMove(e.touches[0].clientX);
         }, { passive: true });
 
-        // Reset Drag
         const endDrag = () => { isDragging = false; };
         window.addEventListener('mouseup', endDrag);
         window.addEventListener('touchend', endDrag);
@@ -290,9 +377,6 @@
     // DECK CONTROL ACTIONS
     // ==========================================================================
 
-    /**
-     * Toggles the automated slideshow mode
-     */
     function togglePlay() {
         isPlaying = !isPlaying;
         
@@ -304,18 +388,27 @@
                     <rect x="6" y="4" width="4" height="16" rx="1"></rect>
                 </svg>`;
             
-            initAudio(); // user-gesture triggers audio prep
+            initAudio();
 
             autoPlayInterval = setInterval(() => {
-                if (activeSheetIndex < totalSheets) {
-                    nextPage();
+                if (isMobileMode) {
+                    if (activePageIndex < totalPages - 1) {
+                        nextPage();
+                    } else {
+                        activePageIndex = 0;
+                        playPaperSound();
+                        updateBookState();
+                    }
                 } else {
-                    // Loop back to cover on complete
-                    activeSheetIndex = 0;
-                    playPaperSound();
-                    updateBookState();
+                    if (activeSheetIndex < totalSheets) {
+                        nextPage();
+                    } else {
+                        activeSheetIndex = 0;
+                        playPaperSound();
+                        updateBookState();
+                    }
                 }
-            }, 3200);
+            }, 3500);
         } else {
             btnPlay.classList.remove('active');
             btnPlay.innerHTML = `
@@ -326,9 +419,6 @@
         }
     }
 
-    /**
-     * Toggles sound synthesizer mute state
-     */
     function toggleMute() {
         isMuted = !isMuted;
         btnMute.classList.toggle('active', isMuted);
@@ -346,22 +436,17 @@
                     <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                     <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
                 </svg>`;
-            initAudio(); // wake audio up
-            playPaperSound(); // sound preview
+            initAudio();
+            playPaperSound();
         }
     }
 
-    /**
-     * Toggles a premium focus scale mode
-     */
     function toggleZoom() {
+        if (isMobileMode) return; // Disable zoom on mobile
         const isZoomed = bookContainer.classList.toggle('zoomed');
         btnZoom.classList.toggle('active', isZoomed);
     }
 
-    /**
-     * Keyboard controls setup (Pfeiltasten Links/Rechts & Spacebar)
-     */
     function setupKeyboardControls() {
         window.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === 'Right') {
@@ -379,23 +464,25 @@
     // INITIALIZATION RUN
     // ==========================================================================
     function init() {
-        // Bind core triggers
+        // Bind UI triggers
         btnPrev.addEventListener('click', prevPage);
         btnNext.addEventListener('click', nextPage);
         btnPlay.addEventListener('click', togglePlay);
         btnMute.addEventListener('click', toggleMute);
         btnZoom.addEventListener('click', toggleZoom);
 
-        // Advanced Mechanics
+        // Bind interactive mechanics
         setupPageCornerClicks();
         setupDragAndDrop();
         setupKeyboardControls();
 
-        // Load correct layout sizes
-        updateBookState();
+        // Check responsive viewport on resize
+        window.addEventListener('resize', checkResponsiveMode);
+
+        // Load responsive view initially
+        checkResponsiveMode();
     }
 
-    // Run when Document is fully ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
