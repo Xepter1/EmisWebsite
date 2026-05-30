@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EG — Interaktives Corporate Brand Book</title>
+    <meta name="description"
+        content="Interaktives 3D Corporate Brand Book & Style Guide von Emili Gaßner. Erlebe Grafikdesign, Typografie und Corporate Identities zum Umblättern.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="brandbook.css">
+</head>
+
+<body class="brandbook-mode">
+
+    <!-- Atmospheric Desk Canvas -->
+    <div class="desk-background"></div>
+    <div class="ambient-glow"></div>
+
+    <!-- Header Navigation -->
+    <nav class="bb-nav">
+        <a href="index.html" class="bb-nav-logo">EG</a>
+        <a href="index.html" class="bb-nav-back">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Zurück zum Portfolio
+        </a>
+    </nav>
+
+    <!-- 3D Book Stage -->
+    <main class="book-stage" id="bookStage">
+        <div class="book-container closed-front" id="bookContainer">
+            <div class="book" id="book">
+                
+                <!-- SHEET 1 (Cover / Spread 2-3 Left) -->
+                <div class="sheet" style="z-index: 6;">
+                    <!-- Front Page: Cover -->
+                    <div class="page page-front cover-page">
+                        <div class="cover-content">
+                            <span class="cover-badge">Styleguide & CD</span>
+                            <div class="cover-mid">
+                                <div class="cover-logo-mark">EG</div>
+                                <h1 class="cover-title">Corporate<br>Brand Book</h1>
+                                <div class="cover-divider"></div>
+                                <p class="cover-subtitle">Gestaltungskonzepte &amp; Visuelle Markenidentitäten</p>
+                            </div>
+                            <span class="cover-footer">Emili Gaßner · Jahrgang 2026</span>
+                        </div>
+                        <div class="page-corner-indicator">→</div>
+                    </div>
+                    
+                    <!-- Back Page: Spread 2-3 Left -->
+                    <div class="page page-back page-spread-left" style="background-image: url('images/brandbook-2-3.jpg');">
+                        <div class="page-corner-indicator">←</div>
+                    </div>
+                </div>
+
+                <!-- SHEET 2 (Spread 2-3 Right / Farbsystem) -->
+                <div class="sheet" style="z-index: 5;">
+                    <!-- Front Page: Spread 2-3 Right -->
+                    <div class="page page-front page-spread-right" style="background-image: url('images/brandbook-2-3.jpg');">
+                        <div class="page-corner-indicator">→</div>
+                    </div>
+                    
+                    <!-- Back Page: Color Palette -->
+                    <div class="page page-back">
+                        <div class="page-header">
+                            <span class="page-tag">02 · Farbpalette</span>
+                            <span class="page-num">S. 4</span>
+                        </div>
+                        <div class="page-body">
+                            <h2 class="intro-title">Die Farbwelt</h2>
+                            <div class="color-swatch-list">
+                                <div class="swatch-item">
+                                    <div class="swatch-color-box" style="background-color: var(--bb-charcoal);"></div>
+                                    <div class="swatch-info">
+                                        <div class="swatch-name">Charcoal Black</div>
+                                        <div class="swatch-values">HEX: #0A0A0C | CMYK: 70/60/55/80<br>RGB: 10/10/12</div>
+                                    </div>
+                                </div>
+                                <div class="swatch-item">
+                                    <div class="swatch-color-box" style="background-color: var(--bb-cream); border: 1px solid rgba(0,0,0,0.06);"></div>
+                                    <div class="swatch-info">
+                                        <div class="swatch-name">Soft Cream</div>
+                                        <div class="swatch-values">HEX: #F4ECD6 | CMYK: 5/10/20/0<br>RGB: 244/236/214</div>
+                                    </div>
+                                </div>
+                                <div class="swatch-item">
+                                    <div class="swatch-color-box" style="background-color: var(--bb-olive);"></div>
+                                    <div class="swatch-info">
+                                        <div class="swatch-name">Sage Olive</div>
+                                        <div class="swatch-values">HEX: #8C9B94 | CMYK: 40/20/30/10<br>RGB: 140/155/148</div>
+                                    </div>
+                                </div>
+                                <div class="swatch-item">
+                                    <div class="swatch-color-box" style="background-color: var(--bb-accent-gold);"></div>
+                                    <div class="swatch-info">
+                                        <div class="swatch-name">Warm Sand / Gold</div>
+                                        <div class="swatch-values">HEX: #C5A86A | CMYK: 20/35/65/5<br>RGB: 197/168/106</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="color-rules">
+                                <strong>Regel:</strong> Kontrast steht an erster Stelle. Charcoal bildet die Basis, Cream schafft Leichtigkeit, Olive &amp; Gold setzen elegante Akzente.
+                            </p>
+                        </div>
+                        <div class="page-footer">
+                            <span>EMS DESIGN</span>
+                            <span>Farbsystem</span>
+                        </div>
+                        <div class="page-corner-indicator">←</div>
+                    </div>
+                </div>
+
+                <!-- SHEET 3 (Typografie / Spread 6-7 Left) -->
+                <div class="sheet" style="z-index: 4;">
+                    <!-- Front Page: Typography -->
+                    <div class="page page-front">
+                        <div class="page-header">
+                            <span class="page-tag">03 · Typografie</span>
+                            <span class="page-num">S. 5</span>
+                        </div>
+                        <div class="page-body">
+                            <h2 class="intro-title">Schriften &amp; Hierarchie</h2>
+                            <div class="font-spec-card">
+                                <div class="font-showcase-row">
+                                    <div class="font-showcase-title">A) Display Schrift — Archivo (Sans-Serif)</div>
+                                    <div class="display-font-demo">BRANDING &amp; CO</div>
+                                </div>
+                                <div class="font-showcase-row">
+                                    <div class="font-showcase-title">B) Fließtext Schrift — Cormorant Garamond</div>
+                                    <div class="body-font-demo">Die Poesie des Lesens.</div>
+                                </div>
+                                <div class="font-showcase-row">
+                                    <div class="font-showcase-title">C) Akzent Schrift — Caveat (Script)</div>
+                                    <div class="script-font-demo">Kreative Details.</div>
+                                </div>
+                                
+                                <div class="hierarchy-flow">
+                                    <div class="flow-item">
+                                        <span>Heading 1</span>
+                                        <span class="flow-sample-h1">ÜBERSCHRIFT</span>
+                                    </div>
+                                    <div class="flow-item">
+                                        <span>Body Text</span>
+                                        <span class="flow-sample-p">Sehr gut lesbarer Fließtext.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-footer">
+                            <span>EMS DESIGN</span>
+                            <span>Typografie</span>
+                        </div>
+                        <div class="page-corner-indicator">→</div>
+                    </div>
+                    
+                    <!-- Back Page: Spread 6-7 Left -->
+                    <div class="page page-back page-spread-left" style="background-image: url('images/brandbook-6-7.jpg');">
+                        <div class="page-corner-indicator">←</div>
+                    </div>
+                </div>
+
+                <!-- SHEET 4 (Spread 6-7 Right / Coffee Cats) -->
+                <div class="sheet" style="z-index: 3;">
+                    <!-- Front Page: Spread 6-7 Right -->
+                    <div class="page page-front page-spread-right" style="background-image: url('images/brandbook-6-7.jpg');">
+                        <div class="page-corner-indicator">→</div>
+                    </div>
+                    
+                    <!-- Back Page: Coffee Cats -->
+                    <div class="page page-back">
+                        <div class="page-header">
+                            <span class="page-tag">04 · Projekt: Coffee Cats</span>
+                            <span class="page-num">S. 8</span>
+                        </div>
+                        <div class="page-body">
+                            <div class="coffeecats-layout">
+                                <div class="coffeecats-header">
+                                    <h2 class="intro-title" style="margin-bottom: 0;">COFFEE CATS</h2>
+                                    <span class="cc-brand-badge">Branding</span>
+                                </div>
+                                <p class="project-page-desc" style="margin-bottom: 0;">
+                                    Ein gemütliches, warmes und liebevolles Café-Konzept mit Fokus auf Katze und Kaffee. Das Farbschema verbindet samtige Töne mit gemütlicher Wärme.
+                                </p>
+                                <div class="coffeecats-img-wrap">
+                                    <img src="images/coffeecats-storefront.jpg" alt="Coffee Cats Café Front">
+                                </div>
+                                <div class="cc-style-swatches">
+                                    <div class="cc-style-color" style="background-color: #2b1d12; color: #fff;">#2B1D12</div>
+                                    <div class="cc-style-color" style="background-color: #6b4a26; color: #fff;">#6B4A26</div>
+                                    <div class="cc-style-color" style="background-color: #d4b88a; color: #333;">#D4B88A</div>
+                                    <div class="cc-style-color" style="background-color: #f4ecd6; color: #333;">#F4ECD6</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-footer">
+                            <span>EMS DESIGN</span>
+                            <span>Coffee Cats Café</span>
+                        </div>
+                        <div class="page-corner-indicator">←</div>
+                    </div>
+                </div>
+
+                <!-- SHEET 5 (Velo Dynamics / Spread 10-11 Left) -->
+                <div class="sheet" style="z-index: 2;">
+                    <!-- Front Page: Velo Dynamics -->
+                    <div class="page page-front">
+                        <div class="page-header">
+                            <span class="page-tag">05 · Projekt: Velo Dynamics</span>
+                            <span class="page-num">S. 9</span>
+                        </div>
+                        <div class="page-body">
+                            <div class="velo-layout">
+                                <span class="velo-tagline">Corporate Identity 2025</span>
+                                <h2 class="intro-title" style="margin-bottom: 0;">VELO DYNAMICS</h2>
+                                <p class="project-page-desc" style="margin-bottom: 0;">
+                                    Für das fiktive innovative Radsport-Unternehmen wurde eine markante, dynamische Corporate Identity mit klarer Linie, geometrischem Fokus und edlem Briefpapier entwickelt.
+                                </p>
+                                <div class="coffeecats-img-wrap">
+                                    <img src="images/velo-cards.jpg" alt="Velo Dynamics Visitenkarten">
+                                </div>
+                                <div class="velo-brand-info">
+                                    Identität: Sportlich, technologisch präzise und elegant.<br>
+                                    Hausfarben: Deep Forest Green (#2A3C33) &amp; Soft Cream.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-footer">
+                            <span>EMS DESIGN</span>
+                            <span>Velo Dynamics CD</span>
+                        </div>
+                        <div class="page-corner-indicator">→</div>
+                    </div>
+                    
+                    <!-- Back Page: Spread 10-11 Left -->
+                    <div class="page page-back page-spread-left" style="background-image: url('images/brandbook-10-11.jpg');">
+                        <div class="page-corner-indicator">←</div>
+                    </div>
+                </div>
+
+                <!-- SHEET 6 (Spread 10-11 Right / Back Cover) -->
+                <div class="sheet" style="z-index: 1;">
+                    <!-- Front Page: Spread 10-11 Right -->
+                    <div class="page page-front page-spread-right" style="background-image: url('images/brandbook-10-11.jpg');">
+                        <div class="page-corner-indicator">→</div>
+                    </div>
+                    
+                    <!-- Back Page: Back Cover -->
+                    <div class="page page-back back-cover-page">
+                        <div class="back-cover-content">
+                            <div class="back-cover-emblem">EG</div>
+                            <div>
+                                <h2 class="back-cover-title">EMS DESIGN</h2>
+                                <p class="back-cover-credits">
+                                    Gestalterin für visuelles Marketing<br>
+                                    Zertifizierte Grafikdesignerin<br>
+                                    <a href="mailto:emiligassner2@gmail.com">emiligassner2@gmail.com</a>
+                                </p>
+                                <p class="back-cover-outro">Lass uns kreieren!</p>
+                            </div>
+                            <span class="back-cover-footer">© 2026 Emili Gaßner · Alle Rechte vorbehalten</span>
+                        </div>
+                        <div class="page-corner-indicator">←</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Glassmorphic Control Deck -->
+    <footer class="controls-deck">
+        <div class="controls-main">
+            <!-- Prev Button -->
+            <button class="ctrl-btn" id="btnPrev" aria-label="Vorherige Seite">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
+            
+            <!-- Page indicator Pill -->
+            <div class="page-indicator-pill" id="pageIndicator">Cover</div>
+            
+            <!-- Play/Slideshow Button -->
+            <button class="ctrl-btn" id="btnPlay" aria-label="Diashow abspielen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                </svg>
+            </button>
+            
+            <!-- Audio Mute Button -->
+            <button class="ctrl-btn" id="btnMute" aria-label="Sound stummschalten">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                </svg>
+            </button>
+            
+            <!-- Zoom Button -->
+            <button class="ctrl-btn" id="btnZoom" aria-label="Fokus-Zoom umschalten">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+            </button>
+            
+            <!-- Next Button -->
+            <button class="ctrl-btn" id="btnNext" aria-label="Nächste Seite">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Shortcuts Hint Desk -->
+        <div class="controls-shortcuts-hint">
+            <span>
+                <kbd class="kb-key-badge">←</kbd> / <kbd class="kb-key-badge">→</kbd> Blättern
+            </span>
+            <span>
+                <kbd class="kb-key-badge">Leertaste</kbd> Diashow
+            </span>
+            <span>
+                Maus / Touch wischen
+            </span>
+        </div>
+    </footer>
+
+    <script src="brandbook.js"></script>
+</body>
+
+</html>
