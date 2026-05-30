@@ -286,180 +286,91 @@
     // Eventuelle zusätzliche Logik kann hier ergänzt werden.
 
     // ============================================
-    // VELO DYNAMICS: Classical 3D Page Flip Slider
+    // VELO DYNAMICS: StPageFlip Realistic Book
     // ============================================
+    const bookEl = document.getElementById('velo-book');
     const prevBtn = document.getElementById('velo-book-prev');
     const nextBtn = document.getElementById('velo-book-next');
     const dots = document.querySelectorAll('.velo-book-dot');
-    
-    const book = document.getElementById('velo-book');
-    const staticLeft = document.getElementById('velo-static-left');
-    const staticRight = document.getElementById('velo-static-right');
-    const flippingSheet = document.getElementById('velo-flipping-sheet');
-    const flippingFront = flippingSheet ? flippingSheet.querySelector('.velo-flipping-face--front') : null;
-    const flippingBack = flippingSheet ? flippingSheet.querySelector('.velo-flipping-face--back') : null;
-    const cover = document.getElementById('velo-book-cover');
 
-    // Jede Seite bekommt ihr eigenes Bild: { left: '...', right: '...' }
-    // Sobald Emis finale Seiten fertig sind, einfach die Pfade hier ersetzen.
-    const spreads = [
-        { left: 'images/brandbook-mock-1.jpg', right: 'images/brandbook-mock-2.jpg' },
-        { left: 'images/brandbook-mock-3.jpg', right: 'images/brandbook-mock-4.jpg' },
-        { left: 'images/brandbook-mock-2.jpg', right: 'images/brandbook-mock-3.jpg' },
-        { left: 'images/brandbook-mock-4.jpg', right: 'images/brandbook-mock-1.jpg' },
-    ];
+    if (bookEl && typeof St !== 'undefined') {
+        const pageFlip = new St.PageFlip(bookEl, {
+            width: 550,
+            height: 733,
+            size: 'stretch',
+            minWidth: 180,
+            maxWidth: 550,
+            minHeight: 240,
+            maxHeight: 733,
+            showCover: true,
+            maxShadowOpacity: 0.6,
+            mobileScrollSupport: false,
+            flippingTime: 1200,
+            useMouseEvents: true,
+            swipeDistance: 30,
+            showPageCorners: true,
+            disableFlipByClick: false,
+            usePortrait: true,
+            startZIndex: 0,
+            autoSize: true,
+            drawShadow: true,
+            startPage: 0
+        });
 
-    if (book && staticLeft && staticRight && flippingSheet && flippingFront && flippingBack) {
-        let currentSpreadIndex = 0;
-        let isTurning = false;
-        let isOpen = false;
-        const FLIP_DURATION = 1100;
+        pageFlip.loadFromHTML(document.querySelectorAll('.velo-bp'));
 
-        function applySpread(spread) {
-            staticLeft.style.backgroundImage = `url('${spread.left}')`;
-            staticRight.style.backgroundImage = `url('${spread.right}')`;
-        }
+        // Update pagination dots on page flip
+        function updateDots() {
+            const pageIndex = pageFlip.getCurrentPageIndex();
+            let dotIndex;
 
-        // Show initial spread behind the closed cover
-        applySpread(spreads[0]);
-
-        function openBook() {
-            if (isOpen) return;
-            isOpen = true;
-            book.classList.add('is-open');
-        }
-
-        function closeBook() {
-            if (!isOpen || isTurning) return;
-            isOpen = false;
-            book.classList.remove('is-open');
-            currentSpreadIndex = 0;
-            applySpread(spreads[0]);
-            dots.forEach((dot, idx) => dot.classList.toggle('active', idx === 0));
-        }
-
-        function showSpread(newIndex) {
-            if (newIndex < 0) newIndex = spreads.length - 1;
-            else if (newIndex >= spreads.length) newIndex = 0;
-
-            if (newIndex === currentSpreadIndex || isTurning) return;
-            isTurning = true;
-
-            const cur = spreads[currentSpreadIndex];
-            const next = spreads[newIndex];
-
-            const isForward = !(newIndex < currentSpreadIndex && !(currentSpreadIndex === spreads.length - 1 && newIndex === 0))
-                && !(currentSpreadIndex === 0 && newIndex === spreads.length - 1);
-
-            if (isForward) {
-                // Static: left stays as current-left, right shows next-right
-                staticLeft.style.backgroundImage = `url('${cur.left}')`;
-                staticRight.style.backgroundImage = `url('${next.right}')`;
-                // Flipping sheet covers the current right page and reveals next left page
-                flippingFront.style.backgroundImage = `url('${cur.right}')`;
-                flippingBack.style.backgroundImage = `url('${next.left}')`;
-                book.classList.add('turning-forward');
+            if (pageIndex <= 1) {
+                dotIndex = 0; // Cover or inner cover
             } else {
-                // Static: right stays as current-right, left shows next-left
-                staticLeft.style.backgroundImage = `url('${next.left}')`;
-                staticRight.style.backgroundImage = `url('${cur.right}')`;
-                // Flipping sheet covers the current left page and reveals next right page
-                flippingFront.style.backgroundImage = `url('${cur.left}')`;
-                flippingBack.style.backgroundImage = `url('${next.right}')`;
-                book.classList.add('turning-backward');
+                dotIndex = Math.ceil((pageIndex - 1) / 2); // Spreads
             }
 
-            setTimeout(() => {
-                book.classList.remove('turning-forward', 'turning-backward');
-                currentSpreadIndex = newIndex;
-                isTurning = false;
-                applySpread(spreads[currentSpreadIndex]);
+            // Clamp to valid dot range
+            dotIndex = Math.min(dotIndex, dots.length - 1);
 
-                dots.forEach((dot, idx) => {
-                    dot.classList.toggle('active', idx === currentSpreadIndex);
-                });
-            }, FLIP_DURATION);
-        }
-
-        // Open the book by clicking / tapping the cover
-        if (cover) {
-            cover.addEventListener('click', openBook);
-            cover.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openBook();
+            dots.forEach((dot, i) => {
+                if (i === dotIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
                 }
             });
         }
 
+        pageFlip.on('flip', () => {
+            updateDots();
+        });
+
+        // Arrow navigation
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
-                if (!isOpen) return;
-                // On the first spread, "back" closes the book again
-                if (currentSpreadIndex === 0) {
-                    closeBook();
-                } else {
-                    showSpread(currentSpreadIndex - 1);
-                }
+                pageFlip.flipPrev();
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
-                if (!isOpen) {
-                    openBook();
-                    return;
-                }
-                showSpread(currentSpreadIndex + 1);
+                pageFlip.flipNext();
             });
         }
 
-        dots.forEach((dot, idx) => {
+        // Dot navigation
+        dots.forEach((dot, i) => {
             dot.addEventListener('click', () => {
-                if (!isOpen) {
-                    openBook();
-                    if (idx !== 0) showSpread(idx);
-                    return;
+                let targetPage;
+                if (i === 0) {
+                    targetPage = 0; // Cover
+                } else {
+                    targetPage = i * 2; // Spread pages
                 }
-                showSpread(idx);
+                pageFlip.flip(targetPage);
             });
         });
-
-        // Touch swipe gestures for mobile (swipe left/right to change pages)
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const bookFrame = document.querySelector('.velo-book-frame');
-
-        if (bookFrame) {
-            bookFrame.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-
-            bookFrame.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, { passive: true });
-        }
-
-        function handleSwipe() {
-            const threshold = 50; // minimum swipe distance in pixels
-            if (touchEndX < touchStartX - threshold) {
-                // Swipe left -> open or next page
-                if (!isOpen) {
-                    openBook();
-                } else {
-                    showSpread(currentSpreadIndex + 1);
-                }
-            } else if (touchEndX > touchStartX + threshold) {
-                // Swipe right -> previous page, or close on the first spread
-                if (!isOpen) return;
-                if (currentSpreadIndex === 0) {
-                    closeBook();
-                } else {
-                    showSpread(currentSpreadIndex - 1);
-                }
-            }
-        }
     }
 
 })();

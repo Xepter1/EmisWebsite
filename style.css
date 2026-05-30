@@ -1463,7 +1463,7 @@ button {
 }
 
 /* ============================================
-   VELO DYNAMICS: DIRECT BRAND BOOK SHOWCASE STYLE
+   VELO DYNAMICS: STPAGEFLIP BRAND BOOK
    ============================================ */
 .velo-book-showcase {
     margin-top: clamp(3rem, 7vw, 5rem);
@@ -1492,299 +1492,179 @@ button {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 900px;
-    gap: clamp(1rem, 3vw, 2.5rem);
+    max-width: 1000px;
+    gap: clamp(0.8rem, 2vw, 2rem);
     position: relative;
     margin: 0 auto;
 }
 
-.velo-book-frame {
-    flex: 1;
-    aspect-ratio: 4 / 3;
-    max-width: 700px;
-    width: 100%;
+/* The stage creates the physical book illusion */
+.velo-book-stage {
     position: relative;
-    border-radius: 6px;
+    flex: 1;
+    max-width: 800px;
+    width: 100%;
+    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))
+            drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
 }
 
+/* Stacked page edges (visible book thickness) */
+.velo-book-edges {
+    position: absolute;
+    top: 3%;
+    bottom: 3%;
+    right: -10px;
+    width: 10px;
+    z-index: -1;
+    border-radius: 0 3px 3px 0;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #f5f2ed 0px,
+            #e8e5e0 1px
+        );
+    box-shadow:
+        2px 0 6px rgba(0, 0, 0, 0.15),
+        inset -1px 0 2px rgba(0, 0, 0, 0.08);
+}
+
+/* StPageFlip container */
 .velo-book {
     width: 100%;
-    height: 100%;
-    background-color: #0b0c0e;
-    border-radius: 6px;
     position: relative;
+}
+
+/* Every page in the flipbook */
+.velo-bp {
+    background-color: #f8f6f1;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    perspective: 1500px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
 }
 
-/* Spine Crease Depth Shadow */
-.velo-book-spine {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 28px;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, 
-        rgba(0,0,0,0.0) 0%, 
-        rgba(0,0,0,0.25) 45%, 
-        rgba(0,0,0,0.35) 50%, 
-        rgba(0,0,0,0.25) 55%, 
-        rgba(0,0,0,0.0) 100%
-    );
-    z-index: 5;
-    pointer-events: none;
-}
-
-/* Static Left and Right Pages */
-.velo-page {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 50%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 1;
-}
-
-/* Page Glow / Reflection Layer overlay on each page */
-.velo-page::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 50%, rgba(0,0,0,0.03) 100%);
-    pointer-events: none;
-    z-index: 3;
-}
-
-.velo-page--left {
-    left: 0;
-    border-right: 1px solid rgba(0, 0, 0, 0.15);
-}
-
-.velo-page--right {
-    right: 0;
-}
-
-/* Flipping Sheet Container */
-.velo-flipping-sheet {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 50%;
+/* Inner wrapper fills the page */
+.velo-bp-inner {
+    width: 100%;
     height: 100%;
-    transform-style: preserve-3d;
-    display: none; /* Hidden by default */
-    z-index: 10;
+    background-color: #f8f6f1;
+    position: relative;
 }
 
-/* Flipping Sheet Faces (Front & Back) */
-.velo-flipping-face {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
+/* Spread image pages */
+.velo-bp-spread {
+    background-size: 200% 100%;
     background-repeat: no-repeat;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 
-.velo-flipping-face::after {
+/* Subtle paper texture overlay on content pages */
+.velo-bp-spread::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 50%, rgba(0,0,0,0.03) 100%);
-    pointer-events: none;
-    z-index: 4;
-}
-
-/* Turning Forward (sweeps right-to-left) Layout */
-.velo-book.turning-forward .velo-flipping-sheet {
-    display: block;
-    left: 50%;
-    transform-origin: left center;
-    animation: turn-forward-anim 1.1s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
-}
-
-.velo-book.turning-forward .velo-flipping-face--front {
-    z-index: 2;
-    transform: rotateY(0deg);
-}
-
-.velo-book.turning-forward .velo-flipping-face--back {
-    z-index: 1;
-    transform: rotateY(180deg);
-}
-
-/* Turning Backward (sweeps left-to-right) Layout */
-.velo-book.turning-backward .velo-flipping-sheet {
-    display: block;
-    left: 0;
-    transform-origin: right center;
-    animation: turn-backward-anim 1.1s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
-}
-
-.velo-book.turning-backward .velo-flipping-face--front {
-    z-index: 2;
-    transform: rotateY(0deg);
-}
-
-.velo-book.turning-backward .velo-flipping-face--back {
-    z-index: 1;
-    transform: rotateY(-180deg);
-}
-
-/* Keyframe Animations */
-@keyframes turn-forward-anim {
-    0% {
-        transform: rotateY(0deg);
-    }
-    100% {
-        transform: rotateY(-180deg);
-    }
-}
-
-@keyframes turn-backward-anim {
-    0% {
-        transform: rotateY(0deg);
-    }
-    100% {
-        transform: rotateY(180deg);
-    }
-}
-
-/* ============ 3D Book Depth: Stacked Page Edges ============ */
-.velo-book-edge {
-    position: absolute;
-    z-index: 6;
-    pointer-events: none;
-}
-
-/* Left & right fore-edges = thin stacked-paper striping */
-.velo-book-edge--left,
-.velo-book-edge--right {
-    top: 4px;
-    bottom: 4px;
-    width: 9px;
-    background-image: repeating-linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0.55) 0px,
-        rgba(255, 255, 255, 0.55) 1px,
-        rgba(150, 145, 130, 0.25) 1px,
-        rgba(110, 105, 92, 0.2) 2px
-    );
-}
-
-.velo-book-edge--left {
-    left: 0;
-    border-radius: 6px 0 0 6px;
-    box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.35);
-}
-
-.velo-book-edge--right {
-    right: 0;
-    border-radius: 0 6px 6px 0;
-    box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.35);
-}
-
-/* Bottom edge = stacked-paper depth */
-.velo-book-edge--bottom {
-    left: 4px;
-    right: 4px;
-    bottom: 0;
-    height: 8px;
-    background-image: repeating-linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.5) 0px,
-        rgba(255, 255, 255, 0.5) 1px,
-        rgba(150, 145, 130, 0.22) 1px,
-        rgba(110, 105, 92, 0.18) 2px
-    );
-    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* ============ Front Cover (closed-book intro) ============ */
-.velo-book-cover {
-    position: absolute;
-    inset: 0;
-    z-index: 30;
     background:
-        radial-gradient(120% 100% at 30% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 55%),
-        linear-gradient(135deg, #1c2d22 0%, #0c140f 100%);
-    border-radius: 4px 6px 6px 4px;
-    transform-origin: left center;
-    transform: rotateY(0deg);
-    transition: transform 1.1s cubic-bezier(0.645, 0.045, 0.355, 1);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow:
-        inset -10px 0 24px rgba(0, 0, 0, 0.35),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-}
-
-/* Subtle hinge shadow near the spine of the cover */
-.velo-book-cover::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 14px;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.4), transparent);
+        linear-gradient(to right,
+            rgba(0,0,0,0.04) 0%,
+            transparent 3%,
+            transparent 97%,
+            rgba(0,0,0,0.02) 100%
+        );
     pointer-events: none;
 }
 
-.velo-book.is-open .velo-book-cover {
-    transform: rotateY(-180deg);
-    pointer-events: none;
+/* Blank pages (inner cover) */
+.velo-bp--blank .velo-bp-inner {
+    background:
+        radial-gradient(ellipse at 30% 40%, rgba(0,0,0,0.01) 0%, transparent 70%),
+        #f8f6f1;
 }
 
-.velo-book-cover-inner {
+/* ===== Front Cover ===== */
+.velo-bp--cover {
+    background: linear-gradient(145deg, #1c2d22 0%, #0c140f 100%);
+}
+
+.velo-cover-face {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.1rem;
+    justify-content: center;
+    gap: clamp(0.6rem, 2vw, 1.2rem);
     padding: 2rem;
-    text-align: center;
+    background:
+        radial-gradient(120% 100% at 30% 20%, rgba(255,255,255,0.06) 0%, transparent 55%),
+        linear-gradient(145deg, #1c2d22 0%, #0c140f 100%);
+    position: relative;
 }
 
-.velo-book-cover-logo {
-    width: clamp(90px, 24%, 150px);
+/* Spine shadow on cover */
+.velo-cover-face::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 18px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.velo-cover-logo {
+    width: clamp(80px, 30%, 140px);
     height: auto;
-    opacity: 0.95;
     filter: brightness(0) invert(1);
+    opacity: 0.92;
 }
 
-.velo-book-cover-label {
+.velo-cover-divider {
+    width: 50px;
+    height: 1px;
+    background: rgba(255,255,255,0.25);
+}
+
+.velo-cover-title {
     font-family: var(--font-display);
-    font-size: clamp(0.75rem, 1.4vw, 1rem);
+    font-size: clamp(0.7rem, 1.3vw, 0.95rem);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.35em;
-    color: rgba(255, 255, 255, 0.85);
-    padding-bottom: 0.6rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255,255,255,0.85);
 }
 
-.velo-book-cover-hint {
-    font-size: clamp(0.6rem, 1vw, 0.72rem);
-    text-transform: uppercase;
+.velo-cover-year {
+    font-family: var(--font-serif);
+    font-size: clamp(0.6rem, 1vw, 0.8rem);
     letter-spacing: 0.2em;
-    color: rgba(255, 255, 255, 0.4);
-    margin-top: 0.5rem;
-    animation: velo-cover-pulse 2.2s ease-in-out infinite;
+    color: rgba(255,255,255,0.4);
 }
 
-@keyframes velo-cover-pulse {
-    0%, 100% { opacity: 0.35; }
-    50% { opacity: 0.7; }
+/* ===== Back Cover ===== */
+.velo-bp--back {
+    background: linear-gradient(145deg, #1c2d22 0%, #0c140f 100%);
+}
+
+.velo-cover-face--back {
+    background: linear-gradient(145deg, #0c140f 0%, #1c2d22 100%);
+    justify-content: flex-end;
+    padding-bottom: 3rem;
+}
+
+/* Spine shadow on back cover (right side) */
+.velo-cover-face--back::before {
+    left: auto;
+    right: 0;
+    background: linear-gradient(270deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+}
+
+.velo-back-credit {
+    font-family: var(--font-serif);
+    font-size: clamp(0.6rem, 1vw, 0.75rem);
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.35);
+}
+
+/* ===== StPageFlip overrides for realistic look ===== */
+.stf__parent {
+    position: relative;
 }
 
 /* Navigation Arrow Buttons */
@@ -1804,6 +1684,7 @@ button {
     user-select: none;
     z-index: 10;
     padding: 0;
+    flex-shrink: 0;
 }
 
 .velo-book-arrow:hover {
@@ -1839,15 +1720,15 @@ button {
     transform: scale(1.3);
 }
 
-/* Float Buttons on Mobile Screens */
+/* Mobile responsive */
 @media (max-width: 768px) {
     .velo-book-wrapper {
         position: relative;
         gap: 0;
     }
     
-    .velo-book-frame {
-        aspect-ratio: 4 / 3; /* Keep readable aspect ratio */
+    .velo-book-edges {
+        display: none;
     }
     
     .velo-book-arrow {
@@ -1858,8 +1739,9 @@ button {
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         border-color: rgba(255, 255, 255, 0.1);
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
     }
     
     .velo-book-arrow--prev {
@@ -1876,3 +1758,4 @@ button {
         transform: translateY(-50%) scale(1.04);
     }
 }
+

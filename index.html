@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Caveat:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=1.5">
+    <link rel="stylesheet" href="style.css?v=2.0">
 </head>
 
 <body>
@@ -133,38 +133,68 @@
             <div class="velo-book-showcase">
                 <h3 class="velo-book-subtitle">Das Brand Book (Styleguide)</h3>
                 <div class="velo-book-wrapper">
-                    <!-- Navigation Arrows -->
                     <button class="velo-book-arrow velo-book-arrow--prev" id="velo-book-prev" aria-label="Vorheriges Blatt">
                         <span class="arrow-symbol">←</span>
                     </button>
                     
-                    <!-- Book Frame -->
-                    <div class="velo-book-frame">
-                        <div class="velo-book" id="velo-book">
-                            <!-- Spine Crease Shadow -->
-                            <div class="velo-book-spine"></div>
-                            
-                            <!-- Static Pages (representing the currently opened book) -->
-                            <div class="velo-page velo-page--left" id="velo-static-left"></div>
-                            <div class="velo-page velo-page--right" id="velo-static-right"></div>
-
-                            <!-- Stacked page edges (3D thickness) -->
-                            <div class="velo-book-edge velo-book-edge--left"></div>
-                            <div class="velo-book-edge velo-book-edge--right"></div>
-                            <div class="velo-book-edge velo-book-edge--bottom"></div>
-
-                            <!-- The Flipping Sheet (only visible/moving during transitions) -->
-                            <div class="velo-flipping-sheet" id="velo-flipping-sheet">
-                                <div class="velo-flipping-face velo-flipping-face--front"></div>
-                                <div class="velo-flipping-face velo-flipping-face--back"></div>
+                    <div class="velo-book-stage">
+                        <!-- Page edge thickness effect -->
+                        <div class="velo-book-edges"></div>
+                        
+                        <div id="velo-book" class="velo-book">
+                            <!-- Front Cover (hard) -->
+                            <div class="velo-bp velo-bp--cover" data-density="hard">
+                                <div class="velo-cover-face">
+                                    <img src="images/velo-logo.png" alt="Velo Dynamics" class="velo-cover-logo">
+                                    <div class="velo-cover-divider"></div>
+                                    <span class="velo-cover-title">Brand Book</span>
+                                    <span class="velo-cover-year">2025</span>
+                                </div>
                             </div>
-
-                            <!-- Front Cover (book starts closed, click to open) -->
-                            <div class="velo-book-cover" id="velo-book-cover" role="button" tabindex="0" aria-label="Brand Book öffnen">
-                                <div class="velo-book-cover-inner">
-                                    <img src="images/velo-logo.png" alt="Velo Dynamics" class="velo-book-cover-logo">
-                                    <span class="velo-book-cover-label">Brand Book</span>
-                                    <span class="velo-book-cover-hint">Tippen zum Öffnen</span>
+                            <!-- Inner Cover (blank cream page) -->
+                            <div class="velo-bp velo-bp--blank" data-density="hard">
+                                <div class="velo-bp-inner"></div>
+                            </div>
+                            <!-- Spread 1 Left -->
+                            <div class="velo-bp">
+                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-1.jpg');background-position:left center;"></div>
+                            </div>
+                            <!-- Spread 1 Right -->
+                            <div class="velo-bp">
+                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-1.jpg');background-position:right center;"></div>
+                            </div>
+                            <!-- Spread 2 Left -->
+                            <div class="velo-bp">
+                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-2.jpg');background-position:left center;"></div>
+                            </div>
+                            <!-- Spread 2 Right -->
+                            <div class="velo-bp">
+                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-2.jpg');background-position:right center;"></div>
+                            </div>
+                            <!-- Spread 3 Left -->
+                            <div class="velo-bp">
+                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-3.jpg');background-position:left center;"></div>
+                            </div>
+                            <!-- Spread 3 Right -->
+                            <div class="velo-bp">
+                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-3.jpg');background-position:right center;"></div>
+                            </div>
+                            <!-- Spread 4 Left -->
+                            <div class="velo-bp">
+                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-4.jpg');background-position:left center;"></div>
+                            </div>
+                            <!-- Spread 4 Right -->
+                            <div class="velo-bp">
+                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-4.jpg');background-position:right center;"></div>
+                            </div>
+                            <!-- Inner Back Cover -->
+                            <div class="velo-bp velo-bp--blank" data-density="hard">
+                                <div class="velo-bp-inner"></div>
+                            </div>
+                            <!-- Back Cover (hard) -->
+                            <div class="velo-bp velo-bp--back" data-density="hard">
+                                <div class="velo-cover-face velo-cover-face--back">
+                                    <span class="velo-back-credit">© Emili Gaßner</span>
                                 </div>
                             </div>
                         </div>
@@ -175,9 +205,9 @@
                     </button>
                 </div>
                 
-                <!-- Pagination Dots -->
                 <div class="velo-book-dots">
-                    <button class="velo-book-dot active" aria-label="Bogen 1"></button>
+                    <button class="velo-book-dot active" aria-label="Cover"></button>
+                    <button class="velo-book-dot" aria-label="Bogen 1"></button>
                     <button class="velo-book-dot" aria-label="Bogen 2"></button>
                     <button class="velo-book-dot" aria-label="Bogen 3"></button>
                     <button class="velo-book-dot" aria-label="Bogen 4"></button>
@@ -356,7 +386,8 @@
         </div>
     </footer>
 
-    <script src="script.js?v=1.5"></script>
+    <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+    <script src="script.js?v=2.0"></script>
 </body>
 
 </html>
