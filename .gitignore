@@ -1,3 +1,13 @@
+# macOS system files
+.DS_Store
+
+# High-resolution print source PDFs (Not needed for production, JPEGs are stored in images/)
+Bilder/
+
+# Swift PDF Extraction tools & temp assets
+convert_pdf
+convert_pdf.swift
+images/*-1.jpg
+
+# Local editor / tooling config
 .claude/
-__pycache__/
-*.pyc
