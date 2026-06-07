@@ -343,4 +343,59 @@
         render();
     }
 
+    // ============================================
+    // PAGE-LOAD INTRO — JS safety removal
+    // ============================================
+    // The intro auto-dismisses via pure CSS animation; this just guarantees
+    // it is fully removed from the layer tree shortly after (and on load).
+    const intro = document.getElementById('intro');
+    if (intro) {
+        const removeIntro = () => intro.classList.add('is-hidden');
+        // matches CSS: 1.25s delay + 0.85s animation ≈ 2.1s
+        setTimeout(removeIntro, 2300);
+        intro.addEventListener('animationend', (e) => {
+            if (e.animationName === 'introOut') removeIntro();
+        });
+    }
+
+    // ============================================
+    // SCROLL PROGRESS BAR  +  SMART NAV (active section)
+    // ============================================
+    const progressEl = document.getElementById('scrollProgress');
+    const navHashLinks = Array.from(document.querySelectorAll('.nav-list a[href^="#"]'));
+    const navSections = navHashLinks
+        .map(link => ({ link, sec: document.getElementById(link.getAttribute('href').slice(1)) }))
+        .filter(o => o.sec);
+
+    if (progressEl || navSections.length) {
+        let scrollTicking = false;
+
+        const onScrollFrame = () => {
+            // Progress bar
+            if (progressEl) {
+                const max = document.documentElement.scrollHeight - window.innerHeight;
+                progressEl.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+            }
+            // Active section: the last section whose top has passed the 40% line.
+            if (navSections.length) {
+                const line = window.innerHeight * 0.4;
+                let current = null;
+                navSections.forEach(o => {
+                    if (o.sec.getBoundingClientRect().top <= line) current = o.link;
+                });
+                navHashLinks.forEach(l => l.classList.toggle('active', l === current));
+            }
+            scrollTicking = false;
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTicking) {
+                window.requestAnimationFrame(onScrollFrame);
+                scrollTicking = true;
+            }
+        }, { passive: true });
+        window.addEventListener('resize', onScrollFrame, { passive: true });
+        onScrollFrame();
+    }
+
 })();
