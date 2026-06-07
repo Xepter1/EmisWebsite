@@ -133,11 +133,10 @@ button {
 }
 
 .nav-logo-img {
-    height: clamp(35px, 4vh, 45px);
+    height: clamp(26px, 3vh, 34px);
     width: auto;
-    aspect-ratio: 320.95 / 356.25;
+    aspect-ratio: 1907 / 469;
     display: block;
-    filter: brightness(0) invert(1);
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -275,61 +274,6 @@ button {
     z-index: 1;
 }
 
-/* ---- Floating Decorative Elements ---- */
-.hero-deco {
-    position: absolute;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.hero-deco--ring {
-    width: 180px;
-    height: 180px;
-    border: 1px solid rgba(140, 155, 148, 0.18);
-    border-radius: 50%;
-    top: 12%;
-    right: 8%;
-    animation: decoFloat 12s ease-in-out infinite;
-}
-
-.hero-deco--line1 {
-    width: 1px;
-    height: 120px;
-    background: linear-gradient(to bottom, transparent, rgba(212, 195, 161, 0.25), transparent);
-    top: 20%;
-    left: 12%;
-    transform: rotate(25deg);
-    animation: decoFloat 10s ease-in-out infinite reverse;
-}
-
-.hero-deco--line2 {
-    width: 80px;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(140, 155, 148, 0.2), transparent);
-    bottom: 22%;
-    right: 15%;
-    animation: decoFloat 14s ease-in-out infinite;
-}
-
-.hero-deco--dots {
-    width: 4px;
-    height: 4px;
-    background: rgba(212, 195, 161, 0.3);
-    border-radius: 50%;
-    top: 35%;
-    right: 22%;
-    box-shadow:
-        0 20px 0 rgba(212, 195, 161, 0.2),
-        0 40px 0 rgba(212, 195, 161, 0.12),
-        0 60px 0 rgba(212, 195, 161, 0.06);
-    animation: decoFloat 16s ease-in-out infinite reverse;
-}
-
-@keyframes decoFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
 /* ---- Hero Grid ---- */
 .hero-grid {
     max-width: var(--max-width);
@@ -364,10 +308,10 @@ button {
 }
 
 .hero-signature-img {
-    max-height: clamp(60px, 10vw, 120px);
+    max-height: clamp(80px, 13vw, 150px);
     width: auto;
     object-fit: contain;
-    filter: brightness(0) invert(1); /* Ensures signature is visible on dark bg if black */
+    /* Unterschrift liegt als transparente PNG (cremefarbene Tinte) vor — passt auf jeden Hintergrund */
 }
 
 .section-title--centered {
@@ -792,6 +736,20 @@ button {
     object-fit: contain;
     max-width: 80%;
     max-height: 80%;
+}
+
+/* Card back graphic fills its tile edge-to-edge */
+.velo-item--cardback {
+    padding: 0;
+    background: #16221c;
+}
+
+.velo-item--cardback img {
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 /* ============================================
@@ -1219,6 +1177,13 @@ button {
     margin-bottom: 0.75rem;
 }
 
+.footer-logo {
+    height: clamp(26px, 3vw, 34px);
+    width: auto;
+    display: block;
+    margin-bottom: 1.1rem;
+}
+
 .footer-tagline {
     font-style: italic;
     color: rgba(255, 255, 255, 0.6);
@@ -1282,11 +1247,6 @@ button {
     .hero-divider {
         margin-left: auto;
         margin-right: auto;
-    }
-
-    .hero-deco--ring,
-    .hero-deco--dots {
-        display: none;
     }
 
     .hero-blob--1 {
@@ -1487,193 +1447,114 @@ button {
     margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
-.velo-book-wrapper {
+/* ---- Brand Book Slider ---- */
+.velo-slider {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 1000px;
-    gap: clamp(0.8rem, 2vw, 2rem);
-    position: relative;
+    max-width: 940px;
+    gap: clamp(0.8rem, 2vw, 1.75rem);
     margin: 0 auto;
 }
 
-/* The stage creates the physical book illusion */
-.velo-book-stage {
+.velo-slider-viewport {
     position: relative;
     flex: 1;
-    max-width: 800px;
-    width: 100%;
-    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))
-            drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
-}
-
-/* Stacked page edges (visible book thickness) */
-.velo-book-edges {
-    position: absolute;
-    top: 3%;
-    bottom: 3%;
-    right: -10px;
-    width: 10px;
-    z-index: -1;
-    border-radius: 0 3px 3px 0;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            #f5f2ed 0px,
-            #e8e5e0 1px
-        );
-    box-shadow:
-        2px 0 6px rgba(0, 0, 0, 0.15),
-        inset -1px 0 2px rgba(0, 0, 0, 0.08);
-}
-
-/* StPageFlip container */
-.velo-book {
-    width: 100%;
-    position: relative;
-}
-
-/* Every page in the flipbook */
-.velo-bp {
-    background-color: #f8f6f1;
+    min-width: 0;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
+    border-radius: 6px;
+    background: #e9e7e2;
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.45),
+        0 10px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* Inner wrapper fills the page */
-.velo-bp-inner {
+.velo-slider-track {
+    display: flex;
     width: 100%;
     height: 100%;
-    background-color: #f8f6f1;
+    transition: transform 0.65s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: transform;
+}
+
+.velo-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
     position: relative;
 }
 
-/* Spread image pages */
-.velo-bp-spread {
-    background-size: 200% 100%;
-    background-repeat: no-repeat;
+.velo-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
-/* Subtle paper texture overlay on content pages */
-.velo-bp-spread::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(to right,
-            rgba(0,0,0,0.04) 0%,
-            transparent 3%,
-            transparent 97%,
-            rgba(0,0,0,0.02) 100%
-        );
-    pointer-events: none;
+/* Typographic cover slide */
+.velo-slide--cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Blank pages (inner cover) */
-.velo-bp--blank .velo-bp-inner {
-    background:
-        radial-gradient(ellipse at 30% 40%, rgba(0,0,0,0.01) 0%, transparent 70%),
-        #f8f6f1;
-}
-
-/* ===== Front Cover ===== */
-.velo-bp--cover {
-    background: linear-gradient(145deg, #1c2d22 0%, #0c140f 100%);
-}
-
-.velo-cover-face {
+.velo-cover-card {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: clamp(0.6rem, 2vw, 1.2rem);
+    gap: clamp(0.7rem, 2vw, 1.3rem);
+    text-align: center;
     padding: 2rem;
     background:
-        radial-gradient(120% 100% at 30% 20%, rgba(255,255,255,0.06) 0%, transparent 55%),
-        linear-gradient(145deg, #1c2d22 0%, #0c140f 100%);
-    position: relative;
+        radial-gradient(120% 100% at 30% 18%, rgba(255, 255, 255, 0.08) 0%, transparent 55%),
+        linear-gradient(145deg, #2a3c33 0%, #16221c 100%);
 }
 
-/* Spine shadow on cover */
-.velo-cover-face::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 18px;
-    background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, transparent 100%);
-    pointer-events: none;
-}
-
-.velo-cover-logo {
-    width: clamp(80px, 30%, 140px);
-    height: auto;
-    filter: brightness(0) invert(1);
-    opacity: 0.92;
-}
-
-.velo-cover-divider {
-    width: 50px;
-    height: 1px;
-    background: rgba(255,255,255,0.25);
-}
-
-.velo-cover-title {
+.velo-cover-brand {
     font-family: var(--font-display);
-    font-size: clamp(0.7rem, 1.3vw, 0.95rem);
-    font-weight: 700;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    line-height: 0.98;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    letter-spacing: 0.35em;
-    color: rgba(255,255,255,0.85);
+    color: var(--cream-light);
 }
 
-.velo-cover-year {
-    font-family: var(--font-serif);
-    font-size: clamp(0.6rem, 1vw, 0.8rem);
+.velo-cover-rule {
+    width: 64px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.velo-cover-kicker {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(0.75rem, 1.4vw, 1rem);
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: rgba(255, 255, 255, 0.85);
+    padding-left: 0.4em;
+}
+
+.velo-cover-yr {
+    font-family: var(--font-serif, var(--font-body));
+    font-size: clamp(0.7rem, 1.1vw, 0.85rem);
     letter-spacing: 0.2em;
-    color: rgba(255,255,255,0.4);
+    color: rgba(255, 255, 255, 0.45);
 }
 
-/* ===== Back Cover ===== */
-.velo-bp--back {
-    background: linear-gradient(145deg, #1c2d22 0%, #0c140f 100%);
-}
-
-.velo-cover-face--back {
-    background: linear-gradient(145deg, #0c140f 0%, #1c2d22 100%);
-    justify-content: flex-end;
-    padding-bottom: 3rem;
-}
-
-/* Spine shadow on back cover (right side) */
-.velo-cover-face--back::before {
-    left: auto;
-    right: 0;
-    background: linear-gradient(270deg, rgba(0,0,0,0.5) 0%, transparent 100%);
-}
-
-.velo-back-credit {
-    font-family: var(--font-serif);
-    font-size: clamp(0.6rem, 1vw, 0.75rem);
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.35);
-}
-
-/* ===== StPageFlip overrides for realistic look ===== */
-.stf__parent {
-    position: relative;
-}
-
-/* Navigation Arrow Buttons */
-.velo-book-arrow {
+/* Arrows */
+.velo-slider-arrow {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     color: var(--white);
     display: flex;
     align-items: center;
@@ -1687,24 +1568,35 @@ button {
     flex-shrink: 0;
 }
 
-.velo-book-arrow:hover {
+.velo-slider-arrow:hover {
     background: var(--white);
     color: var(--black);
     transform: scale(1.08);
 }
 
-.velo-book-arrow:active {
+.velo-slider-arrow:active {
     transform: scale(0.95);
 }
 
-/* Pagination Dots */
-.velo-book-dots {
+.velo-slider-arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.velo-slider-arrow:disabled:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--white);
+    transform: none;
+}
+
+/* Dots */
+.velo-slider-dots {
     display: flex;
     gap: 0.75rem;
     margin-top: clamp(1.5rem, 3vw, 2.25rem);
 }
 
-.velo-book-dot {
+.velo-slider-dot {
     width: 9px;
     height: 9px;
     border-radius: 50%;
@@ -1715,44 +1607,35 @@ button {
     padding: 0;
 }
 
-.velo-book-dot.active {
+.velo-slider-dot.active {
     background: var(--white);
     transform: scale(1.3);
 }
 
-/* Mobile responsive */
+/* Mobile */
 @media (max-width: 768px) {
-    .velo-book-wrapper {
+    .velo-slider {
         position: relative;
         gap: 0;
     }
-    
-    .velo-book-edges {
-        display: none;
-    }
-    
-    .velo-book-arrow {
+
+    .velo-slider-arrow {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(10, 10, 12, 0.65);
+        background: rgba(10, 10, 12, 0.6);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        border-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.12);
         width: 40px;
         height: 40px;
         font-size: 0.9rem;
     }
-    
-    .velo-book-arrow--prev {
-        left: 8px;
-    }
-    
-    .velo-book-arrow--next {
-        right: 8px;
-    }
-    
-    .velo-book-arrow:hover {
+
+    .velo-slider-arrow--prev { left: 8px; }
+    .velo-slider-arrow--next { right: 8px; }
+
+    .velo-slider-arrow:hover {
         background: rgba(10, 10, 12, 0.85);
         color: var(--white);
         transform: translateY(-50%) scale(1.04);

@@ -11,3 +11,6 @@ images/*-1.jpg
 
 # Local editor / tooling config
 .claude/
+
+# Logo source files (PNG/SVG masters, incl. large mockups) — optimized copies live in images/
+Logo/

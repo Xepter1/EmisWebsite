@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Caveat:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
     <!-- NAVIGATION -->
     <nav class="nav">
         <a href="#home" class="nav-logo">
-            <img src="images/logo.svg" alt="EmsDesign Logo" class="nav-logo-img">
+            <img src="images/ems-logo-white.png?v=3.0" alt="EMS Design Logo" class="nav-logo-img">
         </a>
         <button class="nav-toggle" aria-label="Menu öffnen">
             <span></span><span></span><span></span>
@@ -40,12 +40,6 @@
         <div class="hero-blob hero-blob--3"></div>
         <div class="hero-grain"></div>
 
-        <!-- Decorative floating elements -->
-        <div class="hero-deco hero-deco--ring"></div>
-        <div class="hero-deco hero-deco--line1"></div>
-        <div class="hero-deco hero-deco--line2"></div>
-        <div class="hero-deco hero-deco--dots"></div>
-
         <div class="hero-grid hero-grid--no-image">
             <div class="hero-text">
                 <p class="hero-eyebrow">Grafikdesign · Branding · Editorial</p>
@@ -54,7 +48,7 @@
                     <span class="hero-title-line">designerin</span>
                 </h1>
                 <div class="hero-signature-container">
-                    <img src="images/signature.png" alt="Emili Gaßner" class="hero-signature-img">
+                    <img src="images/signature.png?v=3.0" alt="Emili Gaßner" class="hero-signature-img">
                 </div>
                 <div class="hero-divider"></div>
                 <p class="hero-subtitle">
@@ -110,7 +104,7 @@
 
             <div class="velo-gallery">
                 <figure class="velo-item velo-item--cards">
-                    <img src="images/velo-cards.jpg" alt="Velo Dynamics Visitenkarten" loading="lazy">
+                    <img src="images/velo-cards-v2.jpg?v=3.0" alt="Velo Dynamics Visitenkarten – Vorder- und Rückseite" loading="lazy">
                 </figure>
                 <figure class="velo-item velo-item--poster">
                     <img src="images/velo-poster.png" alt="Velo Dynamics Plakat 2026 Markteintritt" loading="lazy">
@@ -118,8 +112,8 @@
                 <figure class="velo-item velo-item--letterhead">
                     <img src="images/velo-letterhead.png" alt="Velo Dynamics Briefpapier" loading="lazy">
                 </figure>
-                <figure class="velo-item velo-item--logo">
-                    <img src="images/velo-logo.png" alt="Velo Dynamics Logo" loading="lazy">
+                <figure class="velo-item velo-item--logo velo-item--cardback">
+                    <img src="images/velo-card-back.jpg?v=3.0" alt="Velo Dynamics Visitenkarten-Rückseite mit Bildmarke" loading="lazy">
                 </figure>
             </div>
 
@@ -132,85 +126,47 @@
             <!-- Velo Brand Book Showcase -->
             <div class="velo-book-showcase">
                 <h3 class="velo-book-subtitle">Das Brand Book (Styleguide)</h3>
-                <div class="velo-book-wrapper">
-                    <button class="velo-book-arrow velo-book-arrow--prev" id="velo-book-prev" aria-label="Vorheriges Blatt">
+                <div class="velo-slider">
+                    <button class="velo-slider-arrow velo-slider-arrow--prev" id="velo-slide-prev" aria-label="Vorheriges Blatt">
                         <span class="arrow-symbol">←</span>
                     </button>
-                    
-                    <div class="velo-book-stage">
-                        <!-- Page edge thickness effect -->
-                        <div class="velo-book-edges"></div>
-                        
-                        <div id="velo-book" class="velo-book">
-                            <!-- Front Cover (hard) -->
-                            <div class="velo-bp velo-bp--cover" data-density="hard">
-                                <div class="velo-cover-face">
-                                    <img src="images/velo-logo.png" alt="Velo Dynamics" class="velo-cover-logo">
-                                    <div class="velo-cover-divider"></div>
-                                    <span class="velo-cover-title">Brand Book</span>
-                                    <span class="velo-cover-year">2025</span>
+
+                    <div class="velo-slider-viewport">
+                        <div class="velo-slider-track" id="velo-slider-track">
+                            <!-- Cover -->
+                            <div class="velo-slide velo-slide--cover">
+                                <div class="velo-cover-card">
+                                    <span class="velo-cover-brand">VELO<br>DYNAMICS</span>
+                                    <span class="velo-cover-rule"></span>
+                                    <span class="velo-cover-kicker">Brand Book</span>
+                                    <span class="velo-cover-yr">2025 · business in motion</span>
                                 </div>
                             </div>
-                            <!-- Inner Cover (blank cream page) -->
-                            <div class="velo-bp velo-bp--blank" data-density="hard">
-                                <div class="velo-bp-inner"></div>
+                            <!-- Spread: Ideenfindung -->
+                            <div class="velo-slide">
+                                <img src="images/brandbook-2-3.jpg?v=3.0" alt="Velo Dynamics Brand Book – Ideenfindung" loading="lazy">
                             </div>
-                            <!-- Spread 1 Left -->
-                            <div class="velo-bp">
-                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-1.jpg');background-position:left center;"></div>
+                            <!-- Spread: Logodesign -->
+                            <div class="velo-slide">
+                                <img src="images/brandbook-6-7.jpg?v=3.0" alt="Velo Dynamics Brand Book – Logodesign" loading="lazy">
                             </div>
-                            <!-- Spread 1 Right -->
-                            <div class="velo-bp">
-                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-1.jpg');background-position:right center;"></div>
-                            </div>
-                            <!-- Spread 2 Left -->
-                            <div class="velo-bp">
-                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-2.jpg');background-position:left center;"></div>
-                            </div>
-                            <!-- Spread 2 Right -->
-                            <div class="velo-bp">
-                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-2.jpg');background-position:right center;"></div>
-                            </div>
-                            <!-- Spread 3 Left -->
-                            <div class="velo-bp">
-                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-3.jpg');background-position:left center;"></div>
-                            </div>
-                            <!-- Spread 3 Right -->
-                            <div class="velo-bp">
-                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-3.jpg');background-position:right center;"></div>
-                            </div>
-                            <!-- Spread 4 Left -->
-                            <div class="velo-bp">
-                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-4.jpg');background-position:left center;"></div>
-                            </div>
-                            <!-- Spread 4 Right -->
-                            <div class="velo-bp">
-                                <div class="velo-bp-inner velo-bp-spread" style="background-image:url('images/brandbook-mock-4.jpg');background-position:right center;"></div>
-                            </div>
-                            <!-- Inner Back Cover -->
-                            <div class="velo-bp velo-bp--blank" data-density="hard">
-                                <div class="velo-bp-inner"></div>
-                            </div>
-                            <!-- Back Cover (hard) -->
-                            <div class="velo-bp velo-bp--back" data-density="hard">
-                                <div class="velo-cover-face velo-cover-face--back">
-                                    <span class="velo-back-credit">© Emili Gaßner</span>
-                                </div>
+                            <!-- Spread: Farbsystem -->
+                            <div class="velo-slide">
+                                <img src="images/brandbook-10-11.jpg?v=3.0" alt="Velo Dynamics Brand Book – Farbanwendung" loading="lazy">
                             </div>
                         </div>
                     </div>
-                    
-                    <button class="velo-book-arrow velo-book-arrow--next" id="velo-book-next" aria-label="Nächstes Blatt">
+
+                    <button class="velo-slider-arrow velo-slider-arrow--next" id="velo-slide-next" aria-label="Nächstes Blatt">
                         <span class="arrow-symbol">→</span>
                     </button>
                 </div>
-                
-                <div class="velo-book-dots">
-                    <button class="velo-book-dot active" aria-label="Cover"></button>
-                    <button class="velo-book-dot" aria-label="Bogen 1"></button>
-                    <button class="velo-book-dot" aria-label="Bogen 2"></button>
-                    <button class="velo-book-dot" aria-label="Bogen 3"></button>
-                    <button class="velo-book-dot" aria-label="Bogen 4"></button>
+
+                <div class="velo-slider-dots" id="velo-slider-dots">
+                    <button class="velo-slider-dot active" aria-label="Cover"></button>
+                    <button class="velo-slider-dot" aria-label="Ideenfindung"></button>
+                    <button class="velo-slider-dot" aria-label="Logodesign"></button>
+                    <button class="velo-slider-dot" aria-label="Farbsystem"></button>
                 </div>
             </div>
         </div>
@@ -367,7 +323,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <p class="footer-name">EmsDesign</p>
+                    <img src="images/ems-logo-white.png?v=3.0" alt="EMS Design" class="footer-logo">
                     <p class="footer-tagline">Gestalterin für visuelles Marketing<br>zertifizierte Grafikdesignerin</p>
                 </div>
                 <nav class="footer-nav">
@@ -386,8 +342,7 @@
         </div>
     </footer>
 
-    <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
-    <script src="script.js?v=2.0"></script>
+    <script src="script.js?v=3.0"></script>
 </body>
 
 </html>

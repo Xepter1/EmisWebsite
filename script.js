@@ -286,91 +286,61 @@
     // Eventuelle zusätzliche Logik kann hier ergänzt werden.
 
     // ============================================
-    // VELO DYNAMICS: StPageFlip Realistic Book
+    // VELO DYNAMICS: Brand Book Slider
     // ============================================
-    const bookEl = document.getElementById('velo-book');
-    const prevBtn = document.getElementById('velo-book-prev');
-    const nextBtn = document.getElementById('velo-book-next');
-    const dots = document.querySelectorAll('.velo-book-dot');
+    const sliderTrack = document.getElementById('velo-slider-track');
+    const slidePrev = document.getElementById('velo-slide-prev');
+    const slideNext = document.getElementById('velo-slide-next');
+    const slideDots = Array.from(document.querySelectorAll('.velo-slider-dot'));
 
-    if (bookEl && typeof St !== 'undefined') {
-        const pageFlip = new St.PageFlip(bookEl, {
-            width: 550,
-            height: 733,
-            size: 'stretch',
-            minWidth: 180,
-            maxWidth: 550,
-            minHeight: 240,
-            maxHeight: 733,
-            showCover: true,
-            maxShadowOpacity: 0.6,
-            mobileScrollSupport: false,
-            flippingTime: 1200,
-            useMouseEvents: true,
-            swipeDistance: 30,
-            showPageCorners: true,
-            disableFlipByClick: false,
-            usePortrait: true,
-            startZIndex: 0,
-            autoSize: true,
-            drawShadow: true,
-            startPage: 0
+    if (sliderTrack) {
+        const slides = sliderTrack.querySelectorAll('.velo-slide');
+        const lastIndex = slides.length - 1;
+        let current = 0;
+
+        const render = () => {
+            sliderTrack.style.transform = `translateX(-${current * 100}%)`;
+            slideDots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+            if (slidePrev) slidePrev.disabled = current === 0;
+            if (slideNext) slideNext.disabled = current === lastIndex;
+        };
+
+        const goTo = (index) => {
+            current = Math.max(0, Math.min(lastIndex, index));
+            render();
+        };
+
+        if (slidePrev) slidePrev.addEventListener('click', () => goTo(current - 1));
+        if (slideNext) slideNext.addEventListener('click', () => goTo(current + 1));
+        slideDots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+        // Keyboard navigation — only while the slider is actually on screen
+        const sliderInView = () => {
+            const r = sliderTrack.getBoundingClientRect();
+            return r.top < window.innerHeight * 0.9 && r.bottom > window.innerHeight * 0.1;
+        };
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+            if (!sliderInView()) return;
+            e.preventDefault();
+            goTo(current + (e.key === 'ArrowLeft' ? -1 : 1));
         });
 
-        pageFlip.loadFromHTML(document.querySelectorAll('.velo-bp'));
+        // Touch / swipe support
+        let touchStartX = 0;
+        let touchActive = false;
+        sliderTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].clientX;
+            touchActive = true;
+        }, { passive: true });
+        sliderTrack.addEventListener('touchend', (e) => {
+            if (!touchActive) return;
+            touchActive = false;
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+        }, { passive: true });
 
-        // Update pagination dots on page flip
-        function updateDots() {
-            const pageIndex = pageFlip.getCurrentPageIndex();
-            let dotIndex;
-
-            if (pageIndex <= 1) {
-                dotIndex = 0; // Cover or inner cover
-            } else {
-                dotIndex = Math.ceil((pageIndex - 1) / 2); // Spreads
-            }
-
-            // Clamp to valid dot range
-            dotIndex = Math.min(dotIndex, dots.length - 1);
-
-            dots.forEach((dot, i) => {
-                if (i === dotIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
-        pageFlip.on('flip', () => {
-            updateDots();
-        });
-
-        // Arrow navigation
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                pageFlip.flipPrev();
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                pageFlip.flipNext();
-            });
-        }
-
-        // Dot navigation
-        dots.forEach((dot, i) => {
-            dot.addEventListener('click', () => {
-                let targetPage;
-                if (i === 0) {
-                    targetPage = 0; // Cover
-                } else {
-                    targetPage = i * 2; // Spread pages
-                }
-                pageFlip.flip(targetPage);
-            });
-        });
+        render();
     }
 
 })();
