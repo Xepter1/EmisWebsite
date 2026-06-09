@@ -207,10 +207,10 @@ button {
 }
 
 /* ============================================
-   HERO — Animated Gradient Mesh
+   HERO — Pures Schwarz, Fokus auf der Marke
    ============================================ */
 .hero {
-    background: #0c0c0e;
+    background: #000000;
     color: var(--white);
     min-height: 100vh;
     display: flex;
@@ -218,75 +218,6 @@ button {
     padding: 8rem var(--gutter) 4rem;
     position: relative;
     overflow: hidden;
-}
-
-/* ---- Gradient Mesh Blobs ---- */
-.hero-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.45;
-    pointer-events: none;
-    will-change: transform;
-}
-
-.hero-blob--1 {
-    width: 55vw;
-    height: 55vw;
-    max-width: 700px;
-    max-height: 700px;
-    background: radial-gradient(circle, hsl(155, 28%, 32%) 0%, transparent 70%);
-    top: -15%;
-    right: -10%;
-    animation: blobDrift1 18s ease-in-out infinite alternate;
-}
-
-.hero-blob--2 {
-    width: 45vw;
-    height: 45vw;
-    max-width: 550px;
-    max-height: 550px;
-    background: radial-gradient(circle, hsl(38, 35%, 50%) 0%, transparent 70%);
-    bottom: -10%;
-    left: -8%;
-    animation: blobDrift2 22s ease-in-out infinite alternate;
-}
-
-.hero-blob--3 {
-    width: 35vw;
-    height: 35vw;
-    max-width: 400px;
-    max-height: 400px;
-    background: radial-gradient(circle, hsl(155, 20%, 45%) 0%, transparent 70%);
-    top: 50%;
-    left: 45%;
-    transform: translate(-50%, -50%);
-    animation: blobDrift3 15s ease-in-out infinite alternate;
-    opacity: 0.25;
-}
-
-@keyframes blobDrift1 {
-    0%   { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-60px, 40px) scale(1.15); }
-}
-@keyframes blobDrift2 {
-    0%   { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(50px, -30px) scale(1.1); }
-}
-@keyframes blobDrift3 {
-    0%   { transform: translate(-50%, -50%) scale(1); }
-    100% { transform: translate(-45%, -55%) scale(1.2); }
-}
-
-/* ---- Film Grain Overlay ---- */
-.hero-grain {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    background-size: 256px 256px;
-    z-index: 1;
 }
 
 /* ---- Hero Grid ---- */
@@ -308,11 +239,6 @@ button {
     justify-content: center;
     max-width: 900px;
     margin: 0 auto;
-}
-
-.hero-grid--no-image .hero-divider {
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .hero-signature-container {
@@ -392,51 +318,18 @@ button {
     animation: heroTextIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
 }
 
-.hero-eyebrow {
-    font-family: var(--font-display);
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: rgba(212, 195, 161, 0.7);
-    margin-bottom: 1.25rem;
-    animation: heroTextIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+/* ---- Hero Logo (Marke als zentrales Element) ---- */
+.hero-logo-wrap {
+    margin: 0 0 1.75rem;
+    line-height: 0;
 }
 
-.hero-title {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: clamp(3.5rem, 11vw, 8.5rem);
-    line-height: 0.92;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-}
-
-.hero-title-line {
+.hero-logo {
     display: block;
-    background: linear-gradient(
-        180deg,
-        var(--white) 0%,
-        #f3ecdc 60%,
-        rgba(212, 195, 161, 0.85) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.hero-title-line:nth-child(1) {
-    animation: heroLetterIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
-}
-
-.hero-title-line:nth-child(2) {
-    animation: heroLetterIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
-}
-
-@keyframes heroLetterIn {
-    from { opacity: 0; transform: translateY(30px) translateX(-10px); }
-    to   { opacity: 1; transform: translateY(0) translateX(0); }
+    width: clamp(300px, 70vw, 720px);
+    height: auto;
+    margin: 0 auto;
+    animation: heroTextIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
 }
 
 @keyframes heroTextIn {
@@ -456,14 +349,6 @@ button {
     animation: heroTextIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
 }
 
-.hero-divider {
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(to right, rgba(140, 155, 148, 0.6), rgba(212, 195, 161, 0.3));
-    margin-bottom: 1.5rem;
-    animation: heroTextIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.9s both;
-}
-
 .hero-subtitle {
     font-family: var(--font-body);
     font-size: clamp(1.1rem, 1.4vw, 1.35rem);
@@ -478,37 +363,7 @@ button {
     color: rgba(212, 195, 161, 0.7);
 }
 
-/* ---- Scroll Indicator ---- */
-.hero-scroll {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 8px;
-    z-index: 2;
-    animation: heroTextIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.2s both;
-}
-
-.hero-scroll span {
-    display: block;
-    width: 3px;
-    height: 8px;
-    background: var(--white);
-    border-radius: 2px;
-    animation: scrollDot 2s ease-in-out infinite;
-}
-
-@keyframes scrollDot {
-    0%, 100% { transform: translateY(0); opacity: 1; }
-    50% { transform: translateY(15px); opacity: 0; }
-}
+/* (Scroll-Maus-Indikator entfernt — Fokus auf der Marke) */
 
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
@@ -1242,30 +1097,6 @@ button {
     .hero-image {
         max-width: 260px;
         margin: 0 auto;
-    }
-
-    .hero-eyebrow {
-        text-align: center;
-    }
-
-    .hero-signature {
-        transform: rotate(-2deg);
-        display: inline-block;
-    }
-
-    .hero-divider {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .hero-blob--1 {
-        width: 80vw;
-        opacity: 0.35;
-    }
-
-    .hero-blob--2 {
-        width: 70vw;
-        opacity: 0.3;
     }
 
     .velo-gallery {
