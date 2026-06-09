@@ -351,8 +351,8 @@
     const intro = document.getElementById('intro');
     if (intro) {
         const removeIntro = () => intro.classList.add('is-hidden');
-        // matches CSS: 1.25s delay + 0.85s animation ≈ 2.1s
-        setTimeout(removeIntro, 2300);
+        // matches CSS: 3.3s delay + 0.7s introOut fade ≈ 4.0s
+        setTimeout(removeIntro, 4200);
         intro.addEventListener('animationend', (e) => {
             if (e.animationName === 'introOut') removeIntro();
         });
