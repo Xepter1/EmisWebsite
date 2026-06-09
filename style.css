@@ -45,6 +45,10 @@ html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Verhindert horizontales Scrollen/Rauszoomen am Handy, falls ein
+       Element doch einmal breiter als der Viewport wird */
+    overflow-x: hidden;
+    width: 100%;
 }
 
 body {
@@ -103,6 +107,10 @@ button {
     letter-spacing: -0.02em;
     text-transform: uppercase;
     margin-bottom: 3rem;
+    /* Lange Wörter (z.B. "Berufserfahrung") auf schmalen Screens umbrechen,
+       damit sie nicht über den Viewport-Rand hinauslaufen */
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .section-title--light { color: var(--white); }
@@ -611,6 +619,9 @@ button {
     text-transform: uppercase;
     color: var(--white);
     margin-bottom: 1rem;
+    /* Lange Wörter (z.B. "Plakatgestaltung") auf schmalen Screens umbrechen */
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .project-title--dark { color: var(--coffee-dark); }
